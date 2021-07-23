@@ -1,0 +1,256 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\newtheorem*{definition}{Definition}
+\newtheorem*{proposition}{Proposition}
+\newtheorem*{remark}{Remark}
+\newtheorem*{lemma}{Lemma}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\pwrset}{\mathcal{P}}
+
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\bcup}{\cup}
+\newcommand{\bcap}{\Cap}
+\newcommand{\bstar}{^\circledast}
+\newcommand{\bcont}{\mathcal{C}^\R}
+\newcommand{\bmeasure}{\leq_\mu^\R}
+
+\newcommand{\lang}{\mathcal{L}}
+\newcommand{\Vars}{\text{Vars}}
+\newcommand{\Pol}{\text{Pol}}
+
+
+\newcommand{\lcup}{\sqcup}
+\newcommand{\lcap}{\sqcap}
+\newcommand{\lstar}{^*}
+\newcommand{\lpart}{\sqsubseteq}
+\newcommand{\lcont}{C}
+\newcommand{\lmeasure}{\preceq}
+
+\newcommand{\eqdef}{\stackrel{\text{def}}{=}}
+
+\title{Working Title}
+\author{Anguel Nikolov}
+\date{2021}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\section{Introduction}
+
+The aim of this work is to explore the axiomatization and decidability of the quantifier-free theories of a structure, which arises from a certain kind of geometric objects on the real line. Three relations between these objects are considered: parthood, contact and qualitative measure.
+
+The objects are referred to as polytopes, though they are in fact unions of what may usually be understood by the term. A key property by which they are chosen is that they have a true interior.
+
+The parthood relationship between these objects gives rise to a Boolean algebra and two further relations are considered --- those of contact and of qualitative measure.
+
+\section{Language}
+This section describes the language, whose semantics we will consider in a couple of contexts.
+
+\begin{definition}[Language]
+$\lang$ denotes the first-order language of only quantifier-free formulas, which contains the following non-logical symbols:
+\begin{itemize}
+  \item predicate symbols:
+  \begin{itemize}
+  \item binary infix $\lpart$: parthood
+  \item binary infix $\lmeasure$: measure comparison
+  \item binary prefix $\lcont$: contact
+  \end{itemize}
+  \item functional symbols:
+  \begin{itemize}
+  \item binary infix function $\lcup$: union
+  \item binary infix function $\lcap$: intersection
+  \item unary postfix function $\lstar$: complement
+  \end{itemize}
+  \item constant symbols:
+  \begin{itemize}
+  \item $0$: empty polytope
+  \item $1$: universe
+  \end{itemize}
+\end{itemize}
+
+The logical symbols $\land$, $\lor$, $\lnot$, $\Rightarrow$, $\top$, $\bot$ are used in the usual way and the set of individual variables is denoted $\Vars$.
+
+\end{definition}
+
+\section{Semantics}
+
+Though the aim is to interpret the language on the real line, other models will also be needed. It is beneficial fix their common semantics, which are defined below in the expected way.
+
+Let $\B$ be a Boolean algebra with carrier $B$ and $\mathcal{C}$ and $\mathcal{M}$ --- relations over $B$. Further, $S = \langle \B, \mathcal{C}, \mathcal{M} \rangle$.
+
+\begin{definition}[Value of a Term in $S = \langle \B, \mathcal{C}, \mathcal{M} \rangle$]
+  Let $v: \Vars \rightarrow B$. Then,  $v^S$ denotes the extension of $v$ to the terms of $\lang$ in the following structurally recursive way:
+  \begin{itemize}
+  \item $v^S(0)$ is the zero of $\B$
+  \item $v^S(1)$ is the unit of $\B$
+  \item $v^S(\tau_1 \lstar)$ is the complement of $v(\tau_1)$ in $\B$,
+  \item $v^S(\tau_1 \lcup \tau_2)$ is the join of $v(\tau_1)$ and $v(\tau_2)$ in $\B$,
+  \item $v^S(\tau_1 \lcap \tau_2)$ is the meet of $v(\tau_1)$ and $v(\tau_2)$ in $\B$,
+  \end{itemize}
+for any terms $\tau_1$ and $\tau_2$ of $\lang$.
+
+\end{definition}
+
+\begin{definition}[Validity of a Formula in $S = \langle \B, \mathcal{C}, \mathcal{M} \rangle$]
+  Again, let $v: \Vars \rightarrow B$. Validity of a formula $\phi$ in $S$ with valuation $v$ is denoted $\langle S, v \rangle \models \phi$ and defined over elementary formulas like so:
+  \begin{itemize}
+  \item $\langle S, v \rangle \models \tau_1 \lpart \tau_2 \longleftrightarrow v^S(\tau_1)$ is less than or equal to $v^S(\tau_2)$ in $\B$,
+  \item $\langle S, v \rangle \models \lcont(\tau_1, \tau_2) \longleftrightarrow \mathcal{C}(v^S(\tau_1), v^S(\tau_2))$,
+  \item $\langle S, v \rangle \models \tau_1 \lmeasure \tau_2 \longleftrightarrow \mathcal{M}(v^S(\tau_1), v^S(\tau_2))$,
+  \end{itemize}
+  for any terms $\tau_1$ and $\tau_2$ of $\lang$. For complex formulas, the extension is done in the usual way:
+  \begin{itemize}
+  \item $\langle S, v \rangle \models \top$ and $\langle S, v \rangle \not \models \bot$,
+  \item $\langle S, v \rangle \models \lnot \phi \longleftrightarrow \langle S, v \rangle \not\models \phi$,
+  \item $\langle S, v \rangle \models \phi \land \psi \longleftrightarrow \langle S, v \rangle \models \phi$ and $\langle S, v \rangle \models \psi$,
+  \item $\langle S, v \rangle \models \phi \land \psi \longleftrightarrow$ at least one of  $\langle S, v \rangle \models \phi$ and $\langle S, v \rangle \models \psi$ holds,
+  \end{itemize}
+  where $\phi$ and $\psi$ are (quantifier-free) formulas of $\lang$.
+
+  If $\langle S, v \rangle \models \phi$ for all $v: \Vars \rightarrow B$, then $S \models \phi$.
+\end{definition}
+
+\subsection{Polytopes on the Real Line}
+
+A specific kind of objects will be considered --- finite unions of closed, potentially infinte, intervals on the real line. These are defined below, along with the operations and properties with which the language will be concerned.
+
+\begin{definition}[Basis Polytope]
+For any $m$, $n \in \mathbb{R}$, such that $m < n$, the intervals $[m, n]$, $(-\infty, m]$, $[m, \infty)$ and $(-\infty, \infty)$ are called \emph{basis polytopes}.
+\end{definition}
+
+Note that in the above definition and throughout the rest of the text, $-\infty$ and $\infty$ are used in the usual way --- as the least and the greatest elements of $\R \cup \{-\infty, \infty\}$.
+
+\begin{definition}[Polytope]
+For any finite set of basis polytopes $B$, $\bigcup B$ is called a \emph{polytope}. The set of all polytopes is denoted $\Pol(\R)$.
+\end{definition}
+
+Remark that the for $B = \emptyset$, the empty set is also a polytope.
+
+\begin{proposition}
+Any non-empty polytope can be uniquely represented as the union of a finite set of non-intersecting basic polytopes.
+\end{proposition}
+\begin{proof}
+\end{proof}
+
+\begin{definition}(Standard Representation)
+The set from the above proposition is the \emph{standard representation} of a polytope.
+\end{definition}
+
+\begin{definition}[Polytope Operations]
+For any polytopes $p$ and $q$, we define the following operations as modifications of intersection and complement:
+\begin{itemize}
+  \item $p \bcap q \eqdef Cl(Int((p \cup q)))$;
+  \item $p \bstar \eqdef Cl(\R \setminus p) $.
+\end{itemize}
+The union operation $p \bcup q$ will be considered in the same context, though no modification is needed.
+\end{definition}
+
+The modification of union ensures that there are no isoltated points and the modification of complement --- that results of the operations remain a union of \emph{closed} intervals.
+
+\begin{proposition}
+$\Pol(\R)$ forms a Boolean algebra with
+\begin{itemize}
+  \item $\bcap$ for meet,
+  \item $\bcup$ for join,
+  \item $\bstar$ for complement,
+  \item $\emptyset$ for the zero and
+  \item $\R$ for the unit.
+\end{itemize}
+This algebra will be denoted $\B^\R$.
+\end{proposition}
+\begin{proof}
+\end{proof}
+
+\begin{definition}[Line Contact]
+Two polytopes $p$ and $q$ are \emph{in contact} if $p \cap q \neq \emptyset$. This is denoted $\bcont(p, q)$.
+\end{definition}
+
+\begin{definition}[Measure]
+  The measure of a basic polytope of the kind $[m, n]$ is $n-m$. The measure of a basic polytope with an infinite bound is $\infty$.
+
+  The \emph{measure} of a polytope $p$, denoted $\mu^\R(p)$ is $\infty$, if one of the polytopes of its standard representation has measure $\infty$, or their sum otherwise.
+
+Further and most importantly, the \emph{qualitative measure relation induced by} $\mu^\R$ is defined
+\begin{equation*}
+  p \bmeasure q \longleftrightarrow \mu^\R(p) \leq \mu^\R(q),
+\end{equation*}
+  for any $p, q \in \Pol(\R)$.
+\end{definition}
+
+This definition is fully in line with the usual measure-theoretic one. Remark that the only polytope with measure $0$ is $\emptyset$. Further, every non-zero polytope has an arbitrary small non-zero sub-polytope.
+Now, the model on the real line is defined as
+\begin{definition}[Real Line Model]
+  \begin{equation*}
+    S^\R \eqdef \langle \B^\R, \bcont, \bmeasure \rangle
+  \end{equation*}
+\end{definition}
+
+\subsection{Finite Relational Models}
+In order to find appropriate value functions for a well chosen kind of formulas, an abstraction model will be needed. It is quite generic, yet it turns out to be easily transformed into an equivalent real line model, given some constraints.
+
+Let $I$ be a finite set and $\B^I$ --- the Boolean algebra of all subsets of $I$. Let $c$ be an arbitrary symmetric and irreflexive relation over $I$ and $m: I \rightarrow \R^+ \cup \{\infty\}$.
+
+Let $\mathcal{C}^c$ be the relation over $\pwrset(I)$ defined as
+\begin{equation*}
+  \mathcal{C}^c(a, b) \longleftrightarrow (\exists i \in a)(\exists j \in b)(\langle i, j \rangle \in c)
+\end{equation*}
+Let $\mu^m: \pwrset(I) \rightarrow \R_0^+ \cup \{\infty\}$ such that:
+\begin{equation*}
+  \mu^m(a) \eqdef
+  \begin{cases}
+    \infty           & \text{if $(\exists i \in a)(m(i) = \infty)$} \\
+    \sum_{i \in a}m(i) & \text{otherwise}
+  \end{cases}
+\end{equation*}
+And finally, let $\leq_m$ be the relation over $\pwrset(I)$:
+\begin{equation*}
+  a \leq_m b \longleftrightarrow \mu^m(a) \leq \mu^m(b),
+\end{equation*}
+all for $a$, $b \subseteq I$.
+\begin{definition}[Finite Relational Model]
+$\langle \B^I, \mathcal{C}^c, \leq_m \rangle$ is called the \emph{finite relational model for $I$, $c$ and $m$}.
+\end{definition}
+
+\subsubsection{Converting to a Real Line Model}
+Finite relational models are useful because they can be converted to real line models under certain conditions.
+
+\begin{definition}[Convertable Relational Model]
+Let $S = \langle \B^I, \mathcal{C}^c, \leq_m \rangle$ be a finite relational model and suppose that the following constraints hold:
+\begin{itemize}
+\item $c$ forms a connected graph over $I$ and
+\item $(\exists i \in I)(\exists j \in I)(i \neq j$ \& $m(i) = m(j) = \infty$ \& $(\forall k \in I\setminus\{i, j\})(m(k) \neq \infty)$, i.e. there are exactly two elements of $I$ with infinite values for $m$.
+\end{itemize}
+Then, $S$ is called a \emph{convertable relational model}.
+\end{definition}
+
+\begin{definition}[Singleton Vauation]
+  Suppose $S = \langle \B^I, \mathcal{C}^c, \leq_m \rangle$ is a convertable relational model and $v: \Vars \rightarrow \pwrset(I)$, such that
+\begin{equation*}
+(\forall x \in \Vars)(\exists i \in I)(v(x) = \{i\}).
+\end{equation*}
+Then, $v$ is called a \emph{singleton valuation}.
+\end{definition}
+
+\begin{lemma}[Untying]
+\end{lemma}
+\begin{proof}
+\end{proof}
+
+\begin{lemma}[Relational Model Conversion]
+  Let $S = \langle \B^I, \mathcal{C}^c, \leq_m \rangle$ be a convertable relational model and $v$ --- a singleton valuation. If $\phi$ is a formula from $\lang$ and $\langle S, v \rangle \models \phi$, then there exists $v^\R: \Vars \rightarrow \Pol(\R)$, such that $\langle S^\R, v^\R \rangle \models \phi$.
+\end{lemma}
+\begin{proof}
+\end{proof}
+\section{Axiomatization}
+\subsection{Corectness}
+\subsection{Completeness}
+\subsection{Finite Axiomatization}
+\end{document}
