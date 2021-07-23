@@ -221,12 +221,15 @@ $\langle \B^I, \mathcal{C}^c, \leq_m \rangle$ is called the \emph{finite relatio
 
 \subsubsection{Converting to a Real Line Model}
 Finite relational models are useful because they can be converted to real line models under certain conditions.
-
+\begin{definition}[Contact Graph]
+  Let $S = \langle \B^I, \mathcal{C}^c, \leq_m \rangle$ be a finite relational model. Let $E$ denote the set of pairs in $c$, but unordered: $E \eqdef \{\, \{i, j\} \mid \langle i, j \rangle \in c \,\}$. Note that since $c$ is irreflexive and symmetric, no information is lost when moving to $E$.
+  The graph $\langle I, E \rangle$ is called the \emph{contact graph} of $S$.
+\end{definition}
 \begin{definition}[Convertable Relational Model]
 Let $S = \langle \B^I, \mathcal{C}^c, \leq_m \rangle$ be a finite relational model and suppose that the following constraints hold:
 \begin{itemize}
-\item $c$ forms a connected graph over $I$ and
-\item $(\exists i \in I)(\exists j \in I)(i \neq j$ \& $m(i) = m(j) = \infty$ \& $(\forall k \in I\setminus\{i, j\})(m(k) \neq \infty)$, i.e. there are exactly two elements of $I$ with infinite values for $m$.
+\item the contact graph of $S$ is connected and
+\item $(\exists i \in I)(\exists j \in I)(i \neq j$ \& $m(i) = m(j) = \infty$ \& $(\forall k \in I\setminus\{i, j\})(m(k) \neq \infty))$, i.e. there are exactly two elements of $I$ with infinite values for $m$.
 \end{itemize}
 Then, $S$ is called a \emph{convertable relational model}.
 \end{definition}
@@ -240,6 +243,12 @@ Then, $v$ is called a \emph{singleton valuation}.
 \end{definition}
 
 \begin{lemma}[Untying]
+  Let $S = \langle \B^I, \mathcal{C}^c, \leq_m \rangle$ be a convertable relational model and $v$ --- a singleton valuation. Suppose the contact graph of $S$ is not a tree.
+  Then, there is a procedure to effectively compute a convertable relational model $S'$ and a singleton valuation $v'$ for $S'$ in polynomial time, so that:
+  \begin{itemize}
+  \item for any formula $\phi$ in $\lang$, $\langle S, v \rangle \models \phi \longleftrightarrow \langle S', v' \rangle \models \phi$ and
+  \item the contact graph of $S'$ has one vertex more and the same number of edges.
+  \end{itemize}
 \end{lemma}
 \begin{proof}
 \end{proof}
