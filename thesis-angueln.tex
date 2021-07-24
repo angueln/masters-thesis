@@ -33,8 +33,8 @@
 
 \newcommand{\eqdef}{\stackrel{\text{def}}{=}}
 
-\title{Working Title}
-\author{Anguel Nikolov}
+\title{Axiomatization of Some Contact Logics with a Qualitative Measure}
+\author{Anguel Nikolov,\\{\small supervised by Prof. Tinko Tinchev}}
 \date{2021}
 
 \begin{document}
@@ -234,17 +234,17 @@ Let $S = \langle \B^I, \mathcal{C}^c, \leq_m \rangle$ be a finite relational mod
 Then, $S$ is called a \emph{convertable relational model}.
 \end{definition}
 
-\begin{definition}[Singleton Vauation]
+\begin{definition}[Disjoint Vauation]
   Suppose $S = \langle \B^I, \mathcal{C}^c, \leq_m \rangle$ is a convertable relational model and $v: \Vars \rightarrow \pwrset(I)$, such that
 \begin{equation*}
-(\forall x \in \Vars)(\exists i \in I)(v(x) = \{i\}).
+(\forall x \in \Vars)(\forall y \in \Vars)(v(x) \neq v(y) \rightarrow v(x) \cap v(y) = \emptyset).
 \end{equation*}
-Then, $v$ is called a \emph{singleton valuation}.
+Then, $v$ is called a \emph{disjoint valuation}.
 \end{definition}
 
 \begin{lemma}[Untying]
-  Let $S = \langle \B^I, \mathcal{C}^c, \leq_m \rangle$ be a convertable relational model and $v$ --- a singleton valuation. Suppose the contact graph of $S$ is not a tree.
-  Then, there is a procedure to effectively compute a convertable relational model $S'$ and a singleton valuation $v'$ for $S'$ in polynomial time, so that:
+  Let $S = \langle \B^I, \mathcal{C}^c, \leq_m \rangle$ be a convertable relational model and $v$ --- a disjoint valuation. Suppose the contact graph of $S$ is not a tree.
+  Then, there is a procedure to effectively compute a convertable relational model $S'$ and a disjoint valuation $v'$ for $S'$ in polynomial time, so that:
   \begin{itemize}
   \item for any formula $\phi$ in $\lang$, $\langle S, v \rangle \models \phi \longleftrightarrow \langle S', v' \rangle \models \phi$ and
   \item the contact graph of $S'$ has one vertex more and the same number of edges.
@@ -254,7 +254,7 @@ Then, $v$ is called a \emph{singleton valuation}.
 \end{proof}
 
 \begin{lemma}[Relational Model Conversion]
-  Let $S = \langle \B^I, \mathcal{C}^c, \leq_m \rangle$ be a convertable relational model and $v$ --- a singleton valuation. If $\phi$ is a formula from $\lang$ and $\langle S, v \rangle \models \phi$, then there exists $v^\R: \Vars \rightarrow \Pol(\R)$, such that $\langle S^\R, v^\R \rangle \models \phi$.
+  Let $S = \langle \B^I, \mathcal{C}^c, \leq_m \rangle$ be a convertable relational model and $v$ --- a disjoint valuation. If $\phi$ is a formula from $\lang$ and $\langle S, v \rangle \models \phi$, then there exists $v^\R: \Vars \rightarrow \Pol(\R)$, such that $\langle S^\R, v^\R \rangle \models \phi$.
 \end{lemma}
 \begin{proof}
 \end{proof}
