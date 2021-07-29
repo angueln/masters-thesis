@@ -40,13 +40,11 @@
 \author{Anguel Nikolov\\{\small supervised by Prof. Tinko Tinchev}}
 \affil{Faculty of Mathematics and Informatics \\
   Sofia University ``St. Kliment Ohridski''}
-\date{2021}
+\date{\today}
 
 \begin{document}
 
 \maketitle
-
-\tableofcontents
 
 \section{Introduction}
 
@@ -54,8 +52,18 @@ The aim of this work is to explore the axiomatization and decidability of the qu
 
 The objects are referred to as polytopes, though they are in fact unions of what may usually be understood by the term. A key property by which they are chosen is that they have a true interior.
 
-The parthood relationship between these objects gives rise to a Boolean algebra and two further relations are considered --- those of contact and of qualitative measure.
-
+The parthood relationship between these objects gives rise to a Boolean algebra and two further relations are considered: contact and qualitative measure.
+\section{Notation and Notions}
+Listed below are some established notions and their notation in this text.
+\begin{itemize}
+\item $\R$ denotes the real numbers, $\R^+$ the positive real numbers and $\R^+_0$ the non-negative ones.
+\item $-\infty$ and $\infty$ are the least and greatest elements of $\R \cup \{-\infty, \infty\}$.
+\item For the purposes of measure, the $+$ operation over $\R^+_0$ is extended in the usual way:
+  \begin{equation*}
+    r + \infty \eqdef \infty + r \eqdef \infty \text{, for any } r \in \R^+_0 \cup \{\infty\}
+  \end{equation*}
+\item $\pwrset(X)$ denotes the set of all subsets of $X$.
+\end{itemize}
 \section{Language}
 This section describes the language, whose semantics we will consider in a couple of contexts.
 
@@ -89,7 +97,7 @@ The logical symbols $\land$, $\lor$, $\lnot$, $\Rightarrow$, $\top$, $\bot$ are 
 
 Though the aim is to interpret the language on the real line, other models will also be needed. It is beneficial fix their common semantics, which are defined below in the expected way.
 
-Let $\B$ be a Boolean algebra with carrier $B$ and $\mathcal{C}$ and $\mathcal{M}$ --- relations over $B$. Further, $S = \langle \B, \mathcal{C}, \mathcal{M} \rangle$.
+Let $\B$ be a Boolean algebra with carrier $B$ and $\mathcal{C}$ and $\mathcal{M}$ be relations over $B$. Further, $S = \langle \B, \mathcal{C}, \mathcal{M} \rangle$.
 
 \begin{definition}[Value of a Term in $S = \langle \B, \mathcal{C}, \mathcal{M} \rangle$]
   Let $v: \Vars \rightarrow B$. Then,  $v^S$ denotes the extension of $v$ to the terms of $\lang$ in the following structurally recursive way:
@@ -125,13 +133,11 @@ for any terms $\tau_1$ and $\tau_2$ of $\lang$.
 
 \subsection{Polytopes on the Real Line}
 
-A specific kind of objects will be considered --- finite unions of closed, potentially infinte, intervals on the real line. These are defined below, along with the operations and properties with which the language will be concerned.
+A specific kind of objects will be considered: finite unions of closed, potentially infinite, intervals on the real line. These are defined below, along with the operations and properties with which the language will be concerned.
 
 \begin{definition}[Basis Polytope]
-For any $m$, $n \in \mathbb{R}$, such that $m < n$, the intervals $[m, n]$, $(-\infty, m]$, $[m, \infty)$ and $(-\infty, \infty)$ are called \emph{basis polytopes}.
+For any $m$, $n \in \R$ such that $m < n$, the intervals $[m, n]$, $(-\infty, m]$, $[m, \infty)$ and $(-\infty, \infty)$ are called \emph{basis polytopes}.
 \end{definition}
-
-Note that in the above definition and throughout the rest of the text, $-\infty$ and $\infty$ are used in the usual way --- as the least and the greatest elements of $\R \cup \{-\infty, \infty\}$.
 
 \begin{definition}[Polytope]
 For any finite set of basis polytopes $B$, $\bigcup B$ is called a \emph{polytope}. The set of all polytopes is denoted $\Pol(\R)$.
@@ -143,11 +149,11 @@ Remark that for $B = \emptyset$, the empty set is also a polytope.
 Any non-empty polytope can be uniquely represented as the union of a finite set of non-intersecting basic polytopes.
 \end{proposition}
 \begin{proof}
-  \textbf{TODO: write proof.}
+  TODO: write proof
 \end{proof}
 
 \begin{definition}(Standard Representation)
-The set from the above proposition is the \emph{standard representation} of a polytope.
+The set from the above proposition is called the \emph{standard representation} of a polytope.
 \end{definition}
 
 \begin{definition}[Polytope Operations]
@@ -159,11 +165,12 @@ For any polytopes $p$ and $q$, we define the following operations as modificatio
 The union operation $p \bcup q$ will be considered in the same context, though no modification is needed.
 \end{definition}
 
-The modification of union ensures that there are no isoltated points and the modification of complement --- that results of the operations remain a union of \emph{closed} intervals.
+The modification of union ensures that there are no isolated points and the modification of complement ensures that results of the operations remain a union of \emph{closed} intervals.
 
 \begin{proposition}
 $\Pol(\R)$ forms a Boolean algebra with
-\begin{itemize}
+  \begin{itemize}
+  \item $\subseteq$ for Boolean inequality,
   \item $\bcap$ for meet,
   \item $\bcup$ for join,
   \item $\bstar$ for complement,
@@ -173,27 +180,50 @@ $\Pol(\R)$ forms a Boolean algebra with
 This algebra will be denoted $\B^\R$.
 \end{proposition}
 \begin{proof}
-  \textbf{TODO: write proof.}
+  TODO: write proof
+\end{proof}
+
+\begin{proposition}
+  $\B^\R$ is incomplete.
+\end{proposition}
+\begin{proof}
+  TODO: write proof
 \end{proof}
 
 \begin{definition}[Line Contact]
 Two polytopes $p$ and $q$ are \emph{in contact} if $p \cap q \neq \emptyset$. This is denoted $\bcont(p, q)$.
 \end{definition}
 
-\begin{definition}[Measure]
-  The measure of a basic polytope of the kind $[m, n]$ is $n-m$. The measure of a basic polytope with an infinite bound is $\infty$.
+\begin{definition}[Polytope Measure]
+  The measure of a basic polytope of the kind $[m, n]$, for $m, n \in \R$ is $n-m$. The measure of a basic polytope with an infinite bound is $\infty$.
 
-  The \emph{measure} of a polytope $p$, denoted $\mu^\R(p)$ is $\infty$, if one of the polytopes of its standard representation has measure $\infty$, or their sum otherwise.
+  The \emph{measure} of a polytope $p$, denoted $\mu^\R(p)$, is the sum of the measures of the basic polytopes of its standard representation.
 
-Further and most importantly, the \emph{qualitative measure relation induced by} $\mu^\R$ is defined
+The \emph{qualitative measure relation induced by} $\mu^\R$ is defined
 \begin{equation*}
   p \bmeasure q \longleftrightarrow \mu^\R(p) \leq \mu^\R(q),
 \end{equation*}
   for any $p, q \in \Pol(\R)$.
 \end{definition}
 
-This definition is fully in line with the usual measure-theoretic one. Remark that the only polytope with measure $0$ is $\emptyset$. Further, every non-zero polytope has an arbitrary small non-zero sub-polytope.
-Now, the model on the real line is defined as
+\begin{proposition}
+  $\mu^\R$ is a measure.
+\end{proposition}
+\begin{proof}
+  TODO: write proof
+\end{proof}
+
+$\mu^\R$ is a restriction of the usual measure on $\R$.
+
+\begin{proposition}
+The only polytope with measure $0$ is $\emptyset$. Further, every non-zero polytope has an arbitrary small non-zero sub-polytope. Consequently, $\B^\R$ is atomless.
+\end{proposition}
+\begin{proof}
+  TODO: write proof
+\end{proof}
+
+Given the definition of $\B^\R$, measure and contact above, the model on the real line is defined directly:
+
 \begin{definition}[Real Line Model]
   \begin{equation*}
     S^\R \eqdef \langle \B^\R, \bcont, \bmeasure \rangle
@@ -203,7 +233,7 @@ Now, the model on the real line is defined as
 \subsection{Relational Models}
 In order to find appropriate value functions for a well chosen kind of formulas, an abstraction model will be needed. It is quite generic, yet it turns out to be easily transformed into an equivalent real line model, given some constraints.
 
-Let $W$ be a finite set and $\B^W$ --- the Boolean algebra of all subsets of $W$. Let $c$ be an arbitrary symmetric and reflexive relation over $W$ and $m: W \rightarrow \R^+ \cup \{\infty\}$.
+Let $W$ be a finite set and $\B^W$ be the Boolean algebra of all subsets of $W$. Let $c$ be an arbitrary symmetric and reflexive relation over $W$ and $m: W \rightarrow \R^+ \cup \{\infty\}$.
 
 Let $\mathcal{C}^c$ be the relation over $\pwrset(W)$ defined as
 \begin{equation*}
@@ -211,11 +241,7 @@ Let $\mathcal{C}^c$ be the relation over $\pwrset(W)$ defined as
 \end{equation*}
 Let $\mu^m: \pwrset(W) \rightarrow \R_0^+ \cup \{\infty\}$ such that:
 \begin{equation*}
-  \mu^m(a) \eqdef
-  \begin{cases}
-    \infty           & \text{if $(\exists i \in a)(m(i) = \infty)$} \\
-    \sum_{i \in a}m(i) & \text{otherwise}
-  \end{cases}
+  \mu^m(a) \eqdef \sum_{i \in a}m(i)
 \end{equation*}
 And finally, let $\leq_m$ be the relation over $\pwrset(W)$:
 \begin{equation*}
@@ -229,43 +255,45 @@ $\langle \B^W, \mathcal{C}^c, \leq_m \rangle$ is called the \emph{relational mod
 \subsubsection{Converting to a Real Line Model}
 Relational models are useful because they can be converted to real line models under certain conditions.
 \begin{definition}[Contact Graph]
-  Let $S = \langle \B^W, \mathcal{C}^c, \leq_m \rangle$ be a relational model. Let $E$ denote the set of pairs of different vertices in $c$, but unordered: $E \eqdef \{\, \{i, j\} \mid \langle i, j \rangle \in c$ \& $i \neq j \,\}$. Note that since $c$ is reflexive and symmetric, no information is lost when moving to $E$.
-  The graph $\langle W, E \rangle$ is called the \emph{contact graph} of $S$ and denoted $Gr(S)$.
+  Let $S = \langle \B^W, \mathcal{C}^c, \leq_m \rangle$ be a relational model. Let $E$ denote the set of pairs of different vertices in $c$, but unordered: $E \eqdef \{\, \{i, j\} \mid \langle i, j \rangle \in c$ \& $i \neq j \,\}$. Note that since $c$ is reflexive and symmetric, no information is lost when obtaining $E$ from $c$.
+  The graph $\langle W, E \rangle$ is called the \emph{contact graph of $S$} and denoted $Gr(S)$.
 \end{definition}
 \begin{definition}[Convertable Relational Model]
 Let $S = \langle \B^W, \mathcal{C}^c, \leq_m \rangle$ be a relational model and suppose that the following constraints hold:
 \begin{itemize}
 \item $Gr(S)$ is connected and
-\item there are exactly two elements of $W$ with infinite values for $m$, i.e. there exist $i \in W$ and $j \in W$, $i \neq j$, such that:
+\item there are exactly two elements of $W$ with infinite values for $m$, i.e. there exist $i \in W$ and $j \in W$, $i \neq j$ such that:
   \begin{equation*}
     m(i) = m(j) = \infty \text{ and } (\forall k \in W \setminus \{i, j\})(m(k) \neq \infty).
   \end{equation*}
 \end{itemize}
-Then, $S$ is called a \emph{convertable relational model}.
+Then, $S$ is called a \emph{convertible relational model}.
 \end{definition}
 
 \begin{definition}[Disjoint Valuation]
-  Suppose $S = \langle \B^W, \mathcal{C}^c, \leq_m \rangle$ is a convertable relational model and $v: \Vars \rightarrow \pwrset(W)$, such that
+  Suppose $S = \langle \B^W, \mathcal{C}^c, \leq_m \rangle$ is a convertible relational model and $v: \Vars \rightarrow \pwrset(W)$ such that
 \begin{equation*}
 (\forall x \in \Vars)(\forall y \in \Vars)(v(x) \neq v(y) \rightarrow v(x) \cap v(y) = \emptyset).
 \end{equation*}
 Then, $v$ is called a \emph{disjoint valuation}.
 \end{definition}
 
+Although a valuation is an infinite object, any given formula contains a finite number of variables. Therefore, only a finite part of the valuation is relevant to the truth value of that formula. The effective construction of a valuation as discussed below is possible because the valuation will always be considered in the context of a formula and will therefore be encodable by a finite object.
+
 \begin{lemma}[Untying]
-  Let $S = \langle \B^W, \mathcal{C}^c, \leq_m \rangle$ be a convertable relational model and $v$ --- a disjoint valuation. Suppose $Gr(S)$ is not a tree.
-  Then, there is a procedure to effectively compute a convertable relational model $S'$ and a disjoint valuation $v'$ for $S'$ in polynomial time, so that:
+  Let $S = \langle \B^W, \mathcal{C}^c, \leq_m \rangle$ be a convertible relational model and $v$ be a disjoint valuation. Suppose $Gr(S)$ is not a tree.
+  Then, there is a procedure to effectively construct a convertible relational model $S'$ and a disjoint valuation $v'$ for $S'$ such that:
   \begin{itemize}
   \item $Gr(S')$ has one vertex more and the same number of edges and
   \item for any formula $\phi$ in $\lang$, $\langle S, v \rangle \models \phi \longleftrightarrow \langle S', v' \rangle \models \phi$.
   \end{itemize}
 \end{lemma}
 \begin{proof}
-  Given that $Gr(S)$ is not a tree, yet is connected, it must contain at least one cylce. A cycle can be effectively found in polynomial time using a depth-first search. Let $\pi$ be such a cycle.
+  Given that $Gr(S)$ is not a tree, yet is connected, it must contain at least one cycle. A cycle can be effectively found using a depth-first search. Let $\pi$ be such a cycle.
 
-  Let $i$ and $j$ be any two consecutive vertices in $\pi$, such that $m(i) \neq \infty$. This requirement is always achievable, since there are at least three vertices in a cycle and exactly two vertices with infinte values for $m$ in a convertable relational model. Therefore, there will be at least one vertex with a finite value for $m$ in any cycle.
+  Let $i$ and $j$ be any two consecutive vertices in $\pi$ such that $m(i) \neq \infty$. This requirement is always achievable, since there are at least three vertices in a cycle and exactly two vertices with infinite values for $m$ in a convertible relational model. Therefore, there will be at least one vertex with a finite value for $m$ in any cycle.
 
-  The intuition behind the method for removing the edge between $i$ and $j$ is that the portion which is in contact only with $j$ of the atomic object $i$ is being separated out into a separate atomic object, having half the measure.
+  The aim is to disconnect $\pi$ by removing the edge between $i$ and $j$. In order to achieve that, intuitively, the portion of $i$ which is in contact only with $j$ will be separated out into a separate atomic object, $i'$, having half the measure.
 
 \begin{figure}[h]
     \centering
@@ -338,26 +366,24 @@ v'(x) &\eqdef \begin{cases}
 \end{cases}\text{, for any } x \in \Vars.
 \end{align*}
 
-Note that the construction of $S'$ and $v'$ happens in polynomial time --- it consists of copying $S$ and $v$, except for a small number of changes not dependent on the size of $S$.
-
-\textbf{TODO: $v'$ is not a finite object. It is stupid to say it can be effectively constructed. Figure out how to cleanly avoid this.}
+Note that $S'$ and $v'$ are defined in a constructive way. The procedure consists of copying $S$ and $v$, except for a small number of changes, not depending on the size of $S$.
 
 It is directly clear that $S'$ is a relational model. Compared to $S$, there is one more vertex in $Gr(S')$ and the same number of edges ($\{i, j\}$ is removed, $\{i', j\}$ is added).
 
 Any path between two vertices in $Gr(S)$ corresponds to a path in $Gr(S')$, by potentially substituting the edge $\{i, j\}$ for the detour path along $\pi$. Therefore, all vertices in $W$ are connected in $Gr(S')$. $i'$ is connected to $i$ and from there to the rest of $W$ as well, so $Gr(S')$ is connected.
 
-$m'$ has the same values as $m$ over all elements of $W'$, except $i$ and $i'$, where it's values are finite. Therefore, the same two elements of $W'$ that have infinite values for $m$, also have infinte values for $m'$ and no others.
+$m'$ has the same values as $m$ over all elements of $W'$, except $i$ and $i'$, where it's values are finite. Therefore, the same two elements of $W'$ that have infinite values for $m$, also have infinite values for $m'$ and no others.
 
-Thus, $S'$ is a convertable relational model.
+Thus, $S'$ is a convertible relational model.
 
-To demonstrate by contraposition that $v'$ is a disjoint valuation, let $x \in \Vars$, $y \in \Vars$ and assume that $v'(x) \cap v'(y) \neq \emptyset$. Let $k \in v'(x) \cap v'(y)$, for some $k \in W'$. If $k = i'$, $i' \in v'(x)$, so $i \in v(x)$ by the definition of $v'$. Analagously, $i \in v(y)$ and $v(x) \cap v(y) \neq \emptyset$. On the other hand, if $k \neq i'$, again by the definition of $v'$, $k \in v(x) \cap v(y)$. In both cases, since $v$ is a disjoint valuation and $v(x) \cap v(y) \neq \emptyset$, $v(x) = v(y)$. From here, $v'(x) = v'(y)$ and $v'$ is a disjoint valuation.
+To demonstrate by contraposition that $v'$ is a disjoint valuation, let $x \in \Vars$, $y \in \Vars$ and assume that $v'(x) \cap v'(y) \neq \emptyset$. Let $k \in v'(x) \cap v'(y)$, for some $k \in W'$. If $k = i'$, $i' \in v'(x)$, so $i \in v(x)$ by the definition of $v'$. Analogously, $i \in v(y)$ and $v(x) \cap v(y) \neq \emptyset$. On the other hand, if $k \neq i'$, again by the definition of $v'$, $k \in v(x) \cap v(y)$. In both cases, since $v$ is a disjoint valuation and $v(x) \cap v(y) \neq \emptyset$, $v(x) = v(y)$. From here, $v'(x) = v'(y)$ and $v'$ is a disjoint valuation.
 
 Now follows a proof by induction on terms in $\lang$, that
 \begin{equation*}
   v'^{S'}(\tau) =
   \begin{cases}
-    v^S(\tau)             & \text{if } i \in v^S(\tau) \\
-    v^S(\tau) \cup \{i'\} & \text{otherwise}
+    v^S(\tau) \cup \{i'\} & \text{if } i \in v^S(\tau) \\
+    v^S(\tau)             & \text{otherwise}
   \end{cases}
   \text{, for any term } \tau \text{ of } \lang.
 \end{equation*}
@@ -395,12 +421,12 @@ Now to demonstrate that for any formula $\phi$ in $\lang$, $\langle S, v \rangle
     \item If $i \in v^S(\tau_2)$,
       \begin{align*}
         \langle S, v \rangle \models \tau_1 \lpart \tau_2 &\longleftrightarrow \\
-        v^S(\tau_1) \subseteq v^s(\tau_2) &\longleftrightarrow \\
-        v^S(\tau_1) \cup \{i'\} \subseteq v^S(\tau_2) \cup \{i'\} &\longleftrightarrow \\
-        v'^{S'}(\tau_1) \subseteq v'^{S'}(\tau_2) &\longleftrightarrow \\
+        v^S(\tau_1) \subseteq v^S(\tau_2) &\longleftrightarrow & \hspace{1.5cm} (v^s(\tau_{1,2}) \subseteq W, i' \not \in W) \\
+        v^S(\tau_1) \cup \{i'\} \subseteq v^S(\tau_2) \cup \{i'\} &\longleftrightarrow & (v^S(\tau_2) \cup \{i'\} = v'^{S'}(\tau_2)) \\
+        v'^{S'}(\tau_1) \subseteq v'^{S'}(\tau_2) &\longleftrightarrow  \\
         \langle S', v' \rangle \models \tau_1 \lpart \tau_2
       \end{align*}
-    \item conversly, if $i \not \in v^S(\tau_2)$,
+    \item conversely, if $i \not \in v^S(\tau_2)$,
       \begin{align*}
         \langle S, v \rangle \models \tau_1 \lpart \tau_2 &\longleftrightarrow \\
         v^S(\tau_1) \subseteq v^s(\tau_2) &\longleftrightarrow \\
@@ -409,31 +435,31 @@ Now to demonstrate that for any formula $\phi$ in $\lang$, $\langle S, v \rangle
       \end{align*}
 
     \end{itemize}
-  \item To prove the statement for contact atomic formulas in one direction, assume that $\langle S, v \rangle \models \lcont(\tau_1, \tau_2)$. From here, $(\exists k \in v^S(\tau_1))(\exists l \in v^S(\tau_2))(\langle k, l \rangle \in c)$.
-    Let $k_0$ and $l_0$ be witnesses for the variables $k$ and $l$.
+  \item To prove the statement for contact atomic formulas in one direction, assume that $\langle S, v \rangle \models \lcont(\tau_1, \tau_2)$. From here, there exist $k \in v^S(\tau_1)$ and $l \in v^S(\tau_2)$ such that $\langle k, l \rangle \in c$.
     \begin{itemize}
-    \item Suppose $\{k_0, l_0\} = \{i, j\}$. Without loss of generality, $k_0 = i$ and $l_0 = j$. Then, since $i \in v^S(\tau_1)$, $i' \in v'^{S'}(\tau_1)$ must hold. Further, $j \in v'^{S'}(\tau_2)$ and $\langle i', j \rangle \in c'$, so $\langle S', v' \rangle \models \lcont(\tau_1, \tau_2)$.
-    \item Alternatively, if $\{k_0, l_0\} \neq \{i, j\}$, then $\langle k_0, l_0 \rangle \in c'$ (because $\langle k_0, l_0 \rangle \in c$), $k_0 \in v'^{S'}(\tau_1)$ and $l_0 \in v'^{S'}(\tau_2)$, so $\langle S', v' \rangle \models \lcont(\tau_1, \tau_2)$.
+    \item Suppose $\{k, l\} = \{i, j\}$. Without loss of generality, $k = i$ and $l = j$. Then, since $i \in v^S(\tau_1)$, $i' \in v'^{S'}(\tau_1)$ must hold. Further, $j \in v'^{S'}(\tau_2)$ and $\langle i', j \rangle \in c'$, so $\langle S', v' \rangle \models \lcont(\tau_1, \tau_2)$.
+    \item Alternatively, if $\{k, l\} \neq \{i, j\}$, then $\langle k, l \rangle \in c'$ (because $\langle k, l \rangle \in c$), $k \in v'^{S'}(\tau_1)$ and $l \in v'^{S'}(\tau_2)$, so $\langle S', v' \rangle \models \lcont(\tau_1, \tau_2)$.
     \end{itemize}
-    In the opposite direction, assume $\langle S', v' \rangle \models \lcont(\tau_1, \tau_2)$. Then, $(\exists k \in v'^{S'}(\tau_1))(\exists l \in v'^{S'}(\tau_2))(\langle k, l \rangle \in c')$. Again, let $k_0$ and $l_0$ be witnesses.
+    In the opposite direction, assume $\langle S', v' \rangle \models \lcont(\tau_1, \tau_2)$. Again, there must exist $k \in v'^{S'}(\tau_1)$ and $l \in v'^{S'}(\tau_2)$ such that $\langle k, l \rangle \in c'$.
     \begin{itemize}
-    \item Suppose $\{k_0, l_0\} = \{i', j\}$. Just as before, without loss of generality, $k_0 = i'$ and $l_0 = j$. Then, since $i' \in v'^{S'}(\tau_1)$, $i \in v^S(\tau_1)$ must hold. Further, $j \in v^S(\tau_2)$ and $\langle i, j \rangle \in c$, so $\langle S, v \rangle \models \lcont(\tau_1, \tau_2)$.
+    \item Suppose $\{k, l\} = \{i', j\}$. Just as before, without loss of generality, $k = i'$ and $l = j$. Then, since $i' \in v'^{S'}(\tau_1)$, $i \in v^S(\tau_1)$ must hold. Further, $j \in v^S(\tau_2)$ and $\langle i, j \rangle \in c$, so $\langle S, v \rangle \models \lcont(\tau_1, \tau_2)$.
     \item
-      Alternatively, suppose $\{k_0, l_0\} \neq \{i', j\}$. Now, $k_0 = i'$ and $l_0 = i'$ are both impossible, since $j$ is the only vertex in $W'$, connected to $i'$ by $c'$ and by assumption, $\{k_0, l_0\} \neq \{i', j\}$.
+      Alternatively, suppose $\{k, l\} \neq \{i', j\}$. The only pairs in $c'$ that contain $i$ are $\{\langle i', j \rangle, \langle j, i' \rangle, \langle i', i' \rangle\}$ and $\langle k, l \rangle \in c'$. If $k = i'$, then $l = i'$ must hold, since $\{k, l\} \neq \{i', j\}$. Analogously, if $k = i'$, then $l = i'$. In both cases, $i \in v^S(\tau_1)$ and $i \in v^S(\tau_2)$ and $\langle i, i \rangle \in c$. Thus $\langle S, v \rangle \models \lcont(\tau_1, \tau_2)$.
 
-      Therefore, $k_0 \in W$, $l_0 \in W$, $k_0 \in v^S(\tau_1)$, $l_0 \in v^S(\tau_2)$ and $\langle k_0, l_0 \rangle \in c$, so $\langle S, v \rangle \models \lcont(\tau_1, \tau_2)$.
+      If both $k \neq i'$ and $l \neq i'$, then $k \in W$, $l \in W$, $k \in v^S(\tau_1)$, $l \in v^S(\tau_2)$ and $\langle k, l \rangle \in c$, so $\langle S, v \rangle \models \lcont(\tau_1, \tau_2)$.
     \end{itemize}
+    \item Given that the statement holds for $\phi$ and $\psi$, proving that it holds for $\phi \lor \psi$, $\phi \land \psi$, $\lnot \phi$, $\phi \Rightarrow \psi$ is trivial.
 \end{itemize}
 \end{proof}
 
 \begin{lemma}[Relational Model Conversion]
-  Let $S = \langle \B^W, \mathcal{C}^c, \leq_m \rangle$ be a convertable relational model and $v$ --- a disjoint valuation. If $\phi$ is a formula from $\lang$ and $\langle S, v \rangle \models \phi$, then there exists $v^\R: \Vars \rightarrow \Pol(\R)$, such that $\langle S^\R, v^\R \rangle \models \phi$.
+  Let $S = \langle \B^W, \mathcal{C}^c, \leq_m \rangle$ be a convertible relational model and $v$ be a disjoint valuation. If $\phi$ is a formula from $\lang$ and $\langle S, v \rangle \models \phi$, then there exists $v^\R: \Vars \rightarrow \Pol(\R)$ such that $\langle S^\R, v^\R \rangle \models \phi$.
 \end{lemma}
 \begin{proof}
-  \textbf{TODO: write proof.}
+  TODO: write proof.
 \end{proof}
 \section{Axiomatization}
-\subsection{Corectness}
+\subsection{Correctness}
 \subsection{Completeness}
 \subsection{Finite Axiomatization}
 \end{document}
