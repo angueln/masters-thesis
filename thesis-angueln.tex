@@ -35,6 +35,7 @@
 \newcommand{\lmeasure}{\preceq}
 
 \newcommand{\eqdef}{\stackrel{\text{def}}{=}}
+\newcommand{\eqih}{\stackrel{\text{ i.h.}}{=}}
 
 \title{Axiomatization of Some Contact Logics with a Qualitative Measure}
 \author{Anguel Nikolov\\{\small supervised by Prof. Tinko Tinchev}}
@@ -398,19 +399,64 @@ Now follows a proof by induction on terms in $\lang$, that
   \item For terms consisting of individual variables, the statement holds by the definition of $v'$.
   \item Suppose, as induction hypothesis, that the statement holds for $\tau_1$ and $\tau_2$.
     \begin{itemize}
-    \item To show that the statement holds for $\tau_1 \lcup \tau_2$, suppose first that $i \in v^S(\tau_1 \lcup \tau_2)$. Then, $i \in v^S(\tau_1) \cup v^S(\tau_2)$ and $i \in v^S(\tau_1)$ or $i \in v^S(\tau_2)$. Without loss of generality, assume $i \in v^S(\tau_1)$. By induction hypothesis, $v'^{S'}(\tau_1) = v^S(\tau_1) \cup \{i'\}$ and $v'^{S'}(\tau_2) \subseteq v^S(\tau_2) \cup \{i'\}$. Thus, $v'^{S'}(\tau_1 \lcup \tau_2) \eqdef v'^{S'}(\tau_1) \cup v'^{S'}(\tau_2) = v^S(\tau_1) \cup v^S(\tau_2) \cup \{i'\} \eqdef v^S(\tau_1 \lcup \tau_2) \cup \{i'\}$.
+    \item To show that the statement holds for $\tau_1 \lcup \tau_2$,
+      \begin{itemize}
+      \item suppose first that $i \in v^S(\tau_1 \lcup \tau_2)$. Then, $i \in v^S(\tau_1) \cup v^S(\tau_2)$ and $i \in v^S(\tau_1)$ or $i \in v^S(\tau_2)$. Without loss of generality, assume $i \in v^S(\tau_1)$. From here,
+        \begin{equation*}
+          v'^{S'}(\tau_1) \eqih v^S(\tau_1) \cup \{i'\} \text{ and } v'^{S'}(\tau_2) \stackrel{\text{ i.h.}}{\subseteq} v^S(\tau_2) \cup \{i'\}.
+        \end{equation*}
+        Using this,
+        \begin{equation*}
+          v'^{S'}(\tau_1) \cup v'^{S'}(\tau_2) = v^S(\tau_1) \cup v^S(\tau_2) \cup \{i'\}.
+        \end{equation*}
+        By applying the definitions of $v^S$ and $v'^{S'}$ to the above equality,
+        \begin{equation*}
+          v'^{S'}(\tau_1 \lcup \tau_2) = v^S(\tau_1 \cup \tau_2) \cup \{i'\}.
+        \end{equation*}
 
-      Alternatively, suppose $i \not \in v^S(\tau_1 \lcup \tau_2)$. Then, $v'^{S'}(\tau_1 \lcup \tau_2) \eqdef v'^{S'}(\tau_1) \cup v'^{S'}(\tau_2) = v^S(\tau_1) \cup v^S(\tau_2) \eqdef v^S(\tau_1 \lcup \tau_2)$ directly, using the induction hypothesis.
 
-    \item To show that the statement holds for $\tau_1 \lcap \tau_2$, suppose $i \in v^S(\tau_1 \lcap \tau_2)$. Then, $i \in v^S(\tau_1) \cap v^S(\tau_2)$, so $i \in v^S(\tau_1)$ and $i \in v^S(\tau_2)$. By induction hypothesis, $v'^{S'}(\tau_1) = v^S(\tau_1) \cup \{i'\}$ and $v'^{S'}(\tau_2) = v^S(\tau_2) \cup \{i'\}$. Thus, $v'^{S'}(\tau_1 \lcap \tau_2) \eqdef v'^{S'}(\tau_1) \cap v'^{S'}(\tau_2) = (v^S(\tau_1) \cup \{i'\}) \cap (v^S(\tau_2) \cup \{i'\}) = (v^S(\tau_1) \cap v^S(\tau_2)) \cup \{i'\} \eqdef v^S(\tau_1 \lcup \tau_2) \cup \{i'\}$.
+      \item Alternatively, suppose $i \not \in v^S(\tau_1 \lcup \tau_2)$. Then
+        \begin{align*}
+          v'^{S'}(\tau_1 \lcup \tau_2) &\eqdef \\
+          v'^{S'}(\tau_1) \cup v'^{S'}(\tau_2) &\eqih v^S(\tau_1) \cup v^S(\tau_2) \\
+          &\eqdef v^S(\tau_1 \lcup \tau_2).
+        \end{align*}
+      \end{itemize}
 
-      Alternatively, if $i \not \in v^S(\tau_1 \lcap \tau_2)$. $i \not \in v^S(\tau_1) \cap v^S(\tau_2)$. Using the induction hypothesis, $v'^{S'}(\tau_1 \lcap \tau_2) \eqdef v'^{S'}(\tau_1) \cap v'^{S'}(\tau_2) = v^S(\tau_1) \cap v^S(\tau_2) \eqdef v^S(\tau_1 \lcap \tau_2)$.
+    \item To show that the statement holds for $\tau_1 \lcap \tau_2$,
+      \begin{itemize}
+      \item suppose $i \in v^S(\tau_1 \lcap \tau_2)$. Then, $i \in v^S(\tau_1) \cap v^S(\tau_2)$, so $i \in v^S(\tau_1)$ and $i \in v^S(\tau_2)$. Thus,
+        \begin{align*}
+          &v'^{S'}(\tau_1 \lcap \tau_2) \eqdef v'^{S'}(\tau_1) \cap v'^{S'}(\tau_2) \eqih \\
+          &(v^S(\tau_1) \cup \{i'\}) \cap (v^S(\tau_2) \cup \{i'\}) = (v^S(\tau_1) \cap v^S(\tau_2)) \cup \{i'\} \eqdef \\
+          &v^S(\tau_1 \lcup \tau_2) \cup \{i'\}.
+        \end{align*}
 
-    \item To show the statement holds for $\tau_1\lstar$, consider that $v'^{S'}(\tau_1\lstar) \eqdef W' \setminus v'^{S'}(\tau_1) \eqdef (W \cup \{i'\}) \setminus v'^{S'}(\tau_1)$.
+      \item Alternatively, if $i \not \in v^S(\tau_1 \lcap \tau_2)$, then $i' \not \in v'^{S'}(\tau_1) \cap v'^{S'}(\tau_2)$ and
+        \begin{equation*}
+          v'^{S'}(\tau_1 \lcap \tau_2) \eqdef v'^{S'}(\tau_1) \cap v'^{S'}(\tau_2) \eqih v^S(\tau_1) \cap v^S(\tau_2) \eqdef v^S(\tau_1 \lcap \tau_2).
+        \end{equation*}
+      \end{itemize}
 
-      Suppose $i \in v^S(\tau_1\lstar)$. By induction hypothesis, $(W \cup \{i'\}) \setminus v'^{S'}(\tau_1) = (W \cup \{i'\}) \setminus (v^S(\tau_1) \cup \{i'\}) = W \setminus v^S(\tau_1) \eqdef v^S(\tau_1\lstar)$.
 
-      Alternatively, if $i \not \in v^S(\tau_1\lstar)$, $(W \cup \{i'\}) \setminus v'^{S'}(\tau_1) = (W \cup \{i'\}) \setminus v^S(\tau_1) = (W \setminus v^S(\tau_1)) \cup \{i'\} \eqdef v^S(\tau_1\lstar) \cup \{i'\}$.
+    \item To show the statement holds for $\tau_1\lstar$, consider that
+      \begin{equation*}
+        v'^{S'}(\tau_1\lstar) \eqdef W' \setminus v'^{S'}(\tau_1) \eqdef (W \cup \{i'\}) \setminus v'^{S'}(\tau_1).
+      \end{equation*}
+      \begin{itemize}
+      \item If $i \not \in v^S(\tau_1\lstar)$, then $i \in v^S(\tau_1)$ and
+        \begin{align*}
+          (W \cup \{i'\}) \setminus v'^{S'}(\tau_1) &\eqih (W \cup \{i'\}) \setminus (v^S(\tau_1) \cup \{i'\}) = \\
+          W \setminus v^S(\tau_1) &\eqdef v^S(\tau_1\lstar).
+        \end{align*}
+
+      \item If $i \in v^S(\tau_1\lstar)$, then $i \not \in v^S(\tau_1)$ and
+        \begin{align*}
+          (W \cup \{i'\}) \setminus v'^{S'}(\tau_1) &= (W \cup \{i'\}) \setminus v^S(\tau_1) = \\
+          (W \setminus v^S(\tau_1)) \cup \{i'\} &\eqdef v^S(\tau_1\lstar) \cup \{i'\}
+        \end{align*}
+      \end{itemize}
+
     \end{itemize}
 \end{itemize}
 Now to demonstrate that for any formula $\phi$ in $\lang$, $\langle S, v \rangle \models \phi \longleftrightarrow \langle S', v' \rangle \models \phi$ by induction on the construction of $\phi$, let $\tau_1$ and $\tau_2$ be terms of $\lang$.
@@ -418,20 +464,25 @@ Now to demonstrate that for any formula $\phi$ in $\lang$, $\langle S, v \rangle
   \item For $\bot$ and $\top$, the statement is trivial.
   \item For parthood atomic formulas:
     \begin{itemize}
-    \item If $i \in v^S(\tau_2)$,
+    \item Suppose $i \in v^S(\tau_2)$. By definition,
+      \begin{equation*}
+        \langle S, v \rangle \models \tau_1 \lpart \tau_2 \longleftrightarrow v^S(\tau_1) \subseteq v^S(\tau_2)
+      \end{equation*}
+      Since $v^S(\tau_{1,2}) \subseteq W$ and $i' \not \in W$,
+      \begin{equation*}
+         v^S(\tau_1) \subseteq v^S(\tau_2) \longleftrightarrow v^S(\tau_1) \cup \{i'\} \subseteq v^S(\tau_2) \cup \{i'\}
+      \end{equation*}
+      and given that $v^S(\tau_2) \cup \{i'\} = v'^{S'}(\tau_2)$,
       \begin{align*}
-        \langle S, v \rangle \models \tau_1 \lpart \tau_2 &\longleftrightarrow \\
-        v^S(\tau_1) \subseteq v^S(\tau_2) &\longleftrightarrow & \hspace{1.5cm} (v^s(\tau_{1,2}) \subseteq W, i' \not \in W) \\
-        v^S(\tau_1) \cup \{i'\} \subseteq v^S(\tau_2) \cup \{i'\} &\longleftrightarrow & (v^S(\tau_2) \cup \{i'\} = v'^{S'}(\tau_2)) \\
-        v'^{S'}(\tau_1) \subseteq v'^{S'}(\tau_2) &\longleftrightarrow  \\
-        \langle S', v' \rangle \models \tau_1 \lpart \tau_2
+        v^S(\tau_1) \cup \{i'\} \subseteq v^S(\tau_2) \cup \{i'\} &\longleftrightarrow v'^{S'}(\tau_1) \subseteq v'^{S'}(\tau_2) \\
+        &\longleftrightarrow \langle S', v' \rangle \models \tau_1 \lpart \tau_2.
       \end{align*}
     \item conversely, if $i \not \in v^S(\tau_2)$,
       \begin{align*}
-        \langle S, v \rangle \models \tau_1 \lpart \tau_2 &\longleftrightarrow \\
-        v^S(\tau_1) \subseteq v^s(\tau_2) &\longleftrightarrow \\
-        v'^{S'}(\tau_1) \subseteq v'^{S'}(\tau_2) &\longleftrightarrow \\
-        \langle S', v' \rangle \models \tau_1 \lpart \tau_2
+        &\langle S, v \rangle \models \tau_1 \lpart \tau_2 \\
+        \longleftrightarrow&\, v^S(\tau_1) \subseteq v^s(\tau_2) \\
+        \longleftrightarrow&\, v'^{S'}(\tau_1) \subseteq v'^{S'}(\tau_2) \\
+        \longleftrightarrow&\, \langle S', v' \rangle \models \tau_1 \lpart \tau_2
       \end{align*}
 
     \end{itemize}
@@ -444,7 +495,7 @@ Now to demonstrate that for any formula $\phi$ in $\lang$, $\langle S, v \rangle
     \begin{itemize}
     \item Suppose $\{k, l\} = \{i', j\}$. Just as before, without loss of generality, $k = i'$ and $l = j$. Then, since $i' \in v'^{S'}(\tau_1)$, $i \in v^S(\tau_1)$ must hold. Further, $j \in v^S(\tau_2)$ and $\langle i, j \rangle \in c$, so $\langle S, v \rangle \models \lcont(\tau_1, \tau_2)$.
     \item
-      Alternatively, suppose $\{k, l\} \neq \{i', j\}$. The only pairs in $c'$ that contain $i$ are $\{\langle i', j \rangle, \langle j, i' \rangle, \langle i', i' \rangle\}$ and $\langle k, l \rangle \in c'$. If $k = i'$, then $l = i'$ must hold, since $\{k, l\} \neq \{i', j\}$. Analogously, if $k = i'$, then $l = i'$. In both cases, $i \in v^S(\tau_1)$ and $i \in v^S(\tau_2)$ and $\langle i, i \rangle \in c$. Thus $\langle S, v \rangle \models \lcont(\tau_1, \tau_2)$.
+      Alternatively, suppose $\{k, l\} \neq \{i', j\}$. The only pairs in $c'$ that contain $i$ are $\{\langle i', j \rangle, \langle j, i' \rangle, \langle i', i' \rangle\}$ and $\langle k, l \rangle \in c'$. If $k = i'$, then $l = i'$ must hold, since $l \neq j$. Analogously, if $k = i'$, then $l = i'$. In both cases, $i \in v^S(\tau_1)$ and $i \in v^S(\tau_2)$ and $\langle i, i \rangle \in c$. Thus $\langle S, v \rangle \models \lcont(\tau_1, \tau_2)$.
 
       If both $k \neq i'$ and $l \neq i'$, then $k \in W$, $l \in W$, $k \in v^S(\tau_1)$, $l \in v^S(\tau_2)$ and $\langle k, l \rangle \in c$, so $\langle S, v \rangle \models \lcont(\tau_1, \tau_2)$.
     \end{itemize}
