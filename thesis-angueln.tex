@@ -5,6 +5,7 @@
 \usepackage{amssymb}
 \usepackage{tikz}
 \usepackage{authblk}
+\usepackage{mathtools}
 
 \usetikzlibrary{calc,shapes.geometric}
 
@@ -499,7 +500,22 @@ Now to demonstrate that for any formula $\phi$ in $\lang$, $\langle S, v \rangle
 
       If both $k \neq i'$ and $l \neq i'$, then $k \in W$, $l \in W$, $k \in v^S(\tau_1)$, $l \in v^S(\tau_2)$ and $\langle k, l \rangle \in c$, so $\langle S, v \rangle \models \lcont(\tau_1, \tau_2)$.
     \end{itemize}
-    \item Given that the statement holds for $\phi$ and $\psi$, proving that it holds for $\phi \lor \psi$, $\phi \land \psi$, $\lnot \phi$, $\phi \Rightarrow \psi$ is trivial.
+  \item For atomic formulas with qualitative measure, first observe that for any term $\tau$, it holds that $\mu^m(v^S(\tau)) = \mu^{m'}(v'^{S'}\tau)$. To prove this, consider again two cases:
+    \begin{itemize}
+    \item If $i \in v^S(\tau)$
+      \begin{align*}
+        & \mu^m(v^S(\tau)) \eqdef \sum_{\mathclap{k \in v^S(\tau)}}m(k) = m(i) + \sum_{\mathclap{k \in v^S(\tau) \setminus \{i\}}}m(k) = \\
+        & m(i) / 2 + m(i) / 2 + \sum_{\mathclap{k \in v^S(\tau) \setminus \{i\}}}m(k) \eqdef \\
+        & m'(i) + m'(i') + \sum_{\mathclap{k \in v^S(\tau) \setminus \{i\}}}m'(k) = \sum_{\mathclap{k \in v^S(\tau) \cup \{i'\}}}m'(k) = \\
+        & \sum_{\mathclap{k \in v'^{S'}(\tau)}}m'(k) \eqdef \mu^m'(v'^{S'}(\tau))
+      \end{align*}
+    \item If $i \not \in v^S(\tau)$, then
+      \begin{equation*}
+        \mu^m(v^S(\tau)) \eqdef \sum_{\mathclap{k \in v^S(\tau)}}m(k) = \sum_{\mathclap{k \in v'^{S'}(\tau)}}m'(k) \eqdef \mu^m'(v'^{S'}(\tau))
+      \end{equation*}
+    \end{itemize}
+    Given this, $\langle S', v' \rangle \models \tau_1 \lmeasure \tau_2 \longleftrightarrow \langle S, v \rangle \models \tau_1 \lmeasure \tau_2$ trivially holds.
+  \item Assuming that the statement holds for $\phi$ and $\psi$, the proof that it holds for $\phi \lor \psi$, $\phi \land \psi$, $\lnot \phi$, $\phi \Rightarrow \psi$ is direct.
 \end{itemize}
 \end{proof}
 
