@@ -3,6 +3,7 @@
 \usepackage{amsthm}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{tasks}
 \usepackage{tikz}
 \usepackage{authblk}
 \usepackage{mathtools}
@@ -33,8 +34,11 @@
 \newcommand{\lcap}{\sqcap}
 \newcommand{\lstar}{^*}
 \newcommand{\lpart}{\sqsubseteq}
+\newcommand{\lparteq}{\doteq}
 \newcommand{\lcont}{C}
 \newcommand{\lmeasure}{\preceq}
+\newcommand{\lmeasures}{\prec}
+\newcommand{\lmeasureeq}{\asymp}
 
 \newcommand{\eqdef}{\stackrel{\text{def}}{=}}
 \newcommand{\eqih}{\stackrel{\text{ i.h.}}{=}}
@@ -72,10 +76,10 @@ Listed below are some well-established notions and the notation for them in this
 \item TODO: Tree, Rooted Tree, Children(T, u), SubTree(T, v)
 \end{itemize}
 \section{Language}
-This section describes the language, whose semantics we will consider in a couple of contexts.
+This section describes the language, whose semantics will be considered in a couple of contexts.
 
 \begin{definition}[Language]
-$\lang$ denotes the first-order language of only quantifier-free formulas, which contains the following non-logical symbols:
+$\lang$ denotes the first-order language with equality of only quantifier-free formulas, containing the following non-logical symbols:
 \begin{itemize}
   \item predicate symbols:
   \begin{itemize}
@@ -96,15 +100,21 @@ $\lang$ denotes the first-order language of only quantifier-free formulas, which
   \end{itemize}
 \end{itemize}
 
-The logical symbols $\land$, $\lor$, $\lnot$, $\Rightarrow$, $\top$, $\bot$ are used in the usual way and the set of individual variables is denoted $\Vars$.
+The logical symbols $\land$, $\lor$, $\lnot$, $\Leftrightarrow$, $\Rightarrow$, $\top$, $\bot$ are used in the usual way and the set of individual variables is denoted $\Vars$. The symbol for formal equality is $\lparteq$.
+
+Further, for any terms $\tau_1$ and $\tau_2$, the following abbreviations will be used:
+\begin{itemize}
+\item $\tau_1 \lmeasureeq \tau_2$ for $\tau_1 \lmeasure \tau_2 \land \tau_2 \lmeasure \tau_1$ and
+\item $\tau_1 \lmeasures \tau_2$ for $\lnot (\tau_2 \lmeasure \tau_1)$.
+\end{itemize}
 
 \end{definition}
 
 \section{Semantics}
 
-Though the aim is to interpret the language on the real line, other models will also be needed. It is beneficial fix their common semantics, which are defined below in the expected way.
+Though the aim is to interpret the language on the real line, other models will also be needed. It is useful fix their common semantics, which are defined below in the expected way.
 
-Let $\B$ be a Boolean algebra with carrier $B$ and $\mathcal{C}$ and $\mathcal{M}$ be relations over $B$. Further, $S = \langle \B, \mathcal{C}, \mathcal{M} \rangle$.
+Let $\B$ be a Boolean algebra with carrier $B$ and $\mathcal{C}$ and $\mathcal{M}$ be relations over $B$. Let $S = \langle \B, \mathcal{C}, \mathcal{M} \rangle$.
 
 \begin{definition}[Value of a Term in $S = \langle \B, \mathcal{C}, \mathcal{M} \rangle$]
   Let $v: \Vars \rightarrow B$. Then,  $v^S$ denotes the extension of $v$ to the terms of $\lang$ in the following structurally recursive way:
@@ -122,16 +132,16 @@ for any terms $\tau_1$ and $\tau_2$ of $\lang$.
 \begin{definition}[Validity of a Formula in $S = \langle \B, \mathcal{C}, \mathcal{M} \rangle$]
   Again, let $v: \Vars \rightarrow B$. Validity of a formula $\phi$ in $S$ with valuation $v$ is denoted $\langle S, v \rangle \models \phi$ and defined over elementary formulas like so:
   \begin{itemize}
-  \item $\langle S, v \rangle \models \tau_1 \lpart \tau_2 \longleftrightarrow v^S(\tau_1)$ is less than or equal to $v^S(\tau_2)$ in $\B$,
-  \item $\langle S, v \rangle \models \lcont(\tau_1, \tau_2) \longleftrightarrow \mathcal{C}(v^S(\tau_1), v^S(\tau_2))$,
-  \item $\langle S, v \rangle \models \tau_1 \lmeasure \tau_2 \longleftrightarrow \mathcal{M}(v^S(\tau_1), v^S(\tau_2))$,
+  \item $\langle S, v \rangle \models \tau_1 \lpart \tau_2 \leftrightarrow v^S(\tau_1)$ is less than or equal to $v^S(\tau_2)$ in $\B$,
+  \item $\langle S, v \rangle \models \lcont(\tau_1, \tau_2) \leftrightarrow \mathcal{C}(v^S(\tau_1), v^S(\tau_2))$,
+  \item $\langle S, v \rangle \models \tau_1 \lmeasure \tau_2 \leftrightarrow \mathcal{M}(v^S(\tau_1), v^S(\tau_2))$,
   \end{itemize}
   for any terms $\tau_1$ and $\tau_2$ of $\lang$. For complex formulas, the extension is done in the usual way:
   \begin{itemize}
   \item $\langle S, v \rangle \models \top$ and $\langle S, v \rangle \not \models \bot$,
-  \item $\langle S, v \rangle \models \lnot \phi \longleftrightarrow \langle S, v \rangle \not\models \phi$,
-  \item $\langle S, v \rangle \models \phi \land \psi \longleftrightarrow \langle S, v \rangle \models \phi$ and $\langle S, v \rangle \models \psi$,
-  \item $\langle S, v \rangle \models \phi \lor \psi \longleftrightarrow$ at least one of  $\langle S, v \rangle \models \phi$ and $\langle S, v \rangle \models \psi$ holds,
+  \item $\langle S, v \rangle \models \lnot \phi \leftrightarrow \langle S, v \rangle \not\models \phi$,
+  \item $\langle S, v \rangle \models \phi \land \psi \leftrightarrow \langle S, v \rangle \models \phi$ and $\langle S, v \rangle \models \psi$,
+  \item $\langle S, v \rangle \models \phi \lor \psi \leftrightarrow$ at least one of  $\langle S, v \rangle \models \phi$ and $\langle S, v \rangle \models \psi$ holds,
   \end{itemize}
   where $\phi$ and $\psi$ are (quantifier-free) formulas of $\lang$.
 
@@ -140,7 +150,7 @@ for any terms $\tau_1$ and $\tau_2$ of $\lang$.
 
 \subsection{Polytopes on the Real Line}
 
-A specific kind of objects will be considered: finite unions of closed, potentially infinite, intervals on the real line. These are defined below, along with the operations and properties with which the language will be concerned.
+A specific kind of objects will be considered: finite unions of closed, potentially infinite, intervals on the real line. These are defined below, along with the interpretation operations and properties with which the language is concerned.
 
 \begin{definition}[Basis Polytope]
 For any $m$, $n \in \R$ such that $m < n$, the intervals $[m, n]$, $(-\infty, m]$, $[m, \infty)$ and $(-\infty, \infty)$ are called \emph{basis polytopes}.
@@ -153,7 +163,7 @@ For any finite set of basis polytopes $B$, $\bigcup B$ is called a \emph{polytop
 Remark that for $B = \emptyset$, the empty set is also a polytope.
 
 \begin{proposition}
-Any non-empty polytope can be uniquely represented as the union of a finite set of non-intersecting basic polytopes.
+Any polytope can be uniquely represented as the union of a finite set of non-intersecting basis polytopes.
 \end{proposition}
 \begin{proof}
   TODO: write proof
@@ -166,13 +176,13 @@ The set from the above proposition is called the \emph{standard representation} 
 \begin{definition}[Polytope Operations]
 For any polytopes $p$ and $q$, we define the following operations as modifications of intersection and complement:
 \begin{itemize}
-  \item $p \bcap q \eqdef Cl(Int((p \cup q)))$;
+  \item $p \bcap q \eqdef Cl(Int(p \cap q))$;
   \item $p \bstar \eqdef Cl(\R \setminus p) $.
 \end{itemize}
 The union operation $p \bcup q$ will be considered in the same context, though no modification is needed.
 \end{definition}
 
-The modification of union ensures that there are no isolated points and the modification of complement ensures that results of the operations remain a union of \emph{closed} intervals.
+The modification of intersection ensures that there are no isolated points and the modification of complement ensures that results of the operations remain a union of \emph{closed} intervals.
 
 \begin{proposition}
 $\Pol(\R)$ forms a Boolean algebra with
@@ -202,13 +212,13 @@ Two polytopes $p$ and $q$ are \emph{in contact} if $p \cap q \neq \emptyset$. Th
 \end{definition}
 
 \begin{definition}[Polytope Measure]
-  The measure of a basic polytope of the kind $[m, n]$, for $m, n \in \R$ is $n-m$. The measure of a basic polytope with an infinite bound is $\infty$.
+  The measure of a basis polytope of the kind $[m, n]$, for $m, n \in \R$ is $n-m$. The measure of a basis polytope with an infinite bound is $\infty$.
 
-  The \emph{measure} of a polytope $p$, denoted $\mu^\R(p)$, is the sum of the measures of the basic polytopes of its standard representation.
+  The \emph{measure} of a polytope $p$, denoted $\mu^\R(p)$, is the sum of the measures of the basis polytopes of its standard representation.
 
 The \emph{qualitative measure relation induced by} $\mu^\R$ is defined
 \begin{equation*}
-  p \bmeasure q \longleftrightarrow \mu^\R(p) \leq \mu^\R(q),
+  p \bmeasure q \leftrightarrow \mu^\R(p) \leq \mu^\R(q),
 \end{equation*}
   for any $p, q \in \Pol(\R)$.
 \end{definition}
@@ -244,7 +254,7 @@ Let $W$ be a finite set and $\B^W$ be the Boolean algebra of all subsets of $W$.
 
 Let $\mathcal{C}^c$ be the relation over $\pwrset(W)$ defined as
 \begin{equation*}
-  \mathcal{C}^c(a, b) \longleftrightarrow (\exists i \in a)(\exists j \in b)(\langle i, j \rangle \in c)
+  \mathcal{C}^c(a, b) \leftrightarrow (\exists i \in a)(\exists j \in b)(\langle i, j \rangle \in c)
 \end{equation*}
 Let $\mu^m: \pwrset(W) \rightarrow \R_0^+ \cup \{\infty\}$ such that:
 \begin{equation*}
@@ -252,7 +262,7 @@ Let $\mu^m: \pwrset(W) \rightarrow \R_0^+ \cup \{\infty\}$ such that:
 \end{equation*}
 And finally, let $\leq_m$ be the relation over $\pwrset(W)$:
 \begin{equation*}
-  a \leq_m b \longleftrightarrow \mu^m(a) \leq \mu^m(b),
+  a \leq_m b \leftrightarrow \mu^m(a) \leq \mu^m(b),
 \end{equation*}
 all for $a$, $b \subseteq W$.
 \begin{definition}[Relational Model]
@@ -292,7 +302,7 @@ Although a valuation is an infinite object, any given formula contains a finite 
   Then, there is a procedure to effectively construct a convertible relational model $S'$ and a disjoint valuation $v'$ for $S'$ such that:
   \begin{itemize}
   \item $Gr(S')$ has one vertex more and the same number of edges and
-  \item for any formula $\phi$ in $\lang$, $\langle S, v \rangle \models \phi \longleftrightarrow \langle S', v' \rangle \models \phi$.
+  \item for any formula $\phi$ in $\lang$, $\langle S, v \rangle \models \phi \leftrightarrow \langle S', v' \rangle \models \phi$.
   \end{itemize}
 \end{lemma}
 \begin{proof}
@@ -466,30 +476,30 @@ Now follows a proof by induction on terms in $\lang$, that
 
     \end{itemize}
 \end{itemize}
-Now to demonstrate that for any formula $\phi$ in $\lang$, $\langle S, v \rangle \models \phi \longleftrightarrow \langle S', v' \rangle \models \phi$ by induction on the construction of $\phi$, let $\tau_1$ and $\tau_2$ be terms of $\lang$.
+Now to demonstrate that for any formula $\phi$ in $\lang$, $\langle S, v \rangle \models \phi \leftrightarrow \langle S', v' \rangle \models \phi$ by induction on the construction of $\phi$, let $\tau_1$ and $\tau_2$ be terms of $\lang$.
 \begin{itemize}
   \item For $\bot$ and $\top$, the statement is trivial.
   \item For parthood atomic formulas:
     \begin{itemize}
     \item Suppose $i \in v^S(\tau_2)$. By definition,
       \begin{equation*}
-        \langle S, v \rangle \models \tau_1 \lpart \tau_2 \longleftrightarrow v^S(\tau_1) \subseteq v^S(\tau_2)
+        \langle S, v \rangle \models \tau_1 \lpart \tau_2 \leftrightarrow v^S(\tau_1) \subseteq v^S(\tau_2)
       \end{equation*}
       Since $v^S(\tau_{1,2}) \subseteq W$ and $i' \not \in W$,
       \begin{equation*}
-         v^S(\tau_1) \subseteq v^S(\tau_2) \longleftrightarrow v^S(\tau_1) \cup \{i'\} \subseteq v^S(\tau_2) \cup \{i'\}
+         v^S(\tau_1) \subseteq v^S(\tau_2) \leftrightarrow v^S(\tau_1) \cup \{i'\} \subseteq v^S(\tau_2) \cup \{i'\}
       \end{equation*}
       and given that $v^S(\tau_2) \cup \{i'\} = v'^{S'}(\tau_2)$,
       \begin{align*}
-        v^S(\tau_1) \cup \{i'\} \subseteq v^S(\tau_2) \cup \{i'\} &\longleftrightarrow v'^{S'}(\tau_1) \subseteq v'^{S'}(\tau_2) \\
-        &\longleftrightarrow \langle S', v' \rangle \models \tau_1 \lpart \tau_2.
+        v^S(\tau_1) \cup \{i'\} \subseteq v^S(\tau_2) \cup \{i'\} &\leftrightarrow v'^{S'}(\tau_1) \subseteq v'^{S'}(\tau_2) \\
+        &\leftrightarrow \langle S', v' \rangle \models \tau_1 \lpart \tau_2.
       \end{align*}
     \item conversely, if $i \not \in v^S(\tau_2)$,
       \begin{align*}
         &\langle S, v \rangle \models \tau_1 \lpart \tau_2 \\
-        \longleftrightarrow&\, v^S(\tau_1) \subseteq v^s(\tau_2) \\
-        \longleftrightarrow&\, v'^{S'}(\tau_1) \subseteq v'^{S'}(\tau_2) \\
-        \longleftrightarrow&\, \langle S', v' \rangle \models \tau_1 \lpart \tau_2
+        \leftrightarrow&\, v^S(\tau_1) \subseteq v^s(\tau_2) \\
+        \leftrightarrow&\, v'^{S'}(\tau_1) \subseteq v'^{S'}(\tau_2) \\
+        \leftrightarrow&\, \langle S', v' \rangle \models \tau_1 \lpart \tau_2
       \end{align*}
 
     \end{itemize}
@@ -502,7 +512,7 @@ Now to demonstrate that for any formula $\phi$ in $\lang$, $\langle S, v \rangle
     \begin{itemize}
     \item Suppose $\{k, l\} = \{i', j\}$. Just as before, without loss of generality, $k = i'$ and $l = j$. Then, since $i' \in v'^{S'}(\tau_1)$, $i \in v^S(\tau_1)$ must hold. Further, $j \in v^S(\tau_2)$ and $\langle i, j \rangle \in c$, so $\langle S, v \rangle \models \lcont(\tau_1, \tau_2)$.
     \item
-      Alternatively, suppose $\{k, l\} \neq \{i', j\}$. The only pairs in $c'$ that contain $i$ are $\{\langle i', j \rangle, \langle j, i' \rangle, \langle i', i' \rangle\}$ and $\langle k, l \rangle \in c'$. If $k = i'$, then $l = i'$ must hold, since $l \neq j$. Analogously, if $k = i'$, then $l = i'$. In both cases, $i \in v^S(\tau_1)$ and $i \in v^S(\tau_2)$ and $\langle i, i \rangle \in c$. Thus $\langle S, v \rangle \models \lcont(\tau_1, \tau_2)$.
+      Alternatively, suppose $\{k, l\} \neq \{i', j\}$. The only ordered pairs in $c'$ that contain $i'$ are $\{\langle i', j \rangle, \langle j, i' \rangle, \langle i', i' \rangle\}$ and $\langle k, l \rangle \in c'$. Thus, if $k = i'$, then $l = i'$ must hold, since $l \neq j$. Analogously, if $k = i'$, then $l = i'$. In both cases, $i \in v^S(\tau_1)$ and $i \in v^S(\tau_2)$ and $\langle i, i \rangle \in c$. Thus $\langle S, v \rangle \models \lcont(\tau_1, \tau_2)$.
 
       If both $k \neq i'$ and $l \neq i'$, then $k \in W$, $l \in W$, $k \in v^S(\tau_1)$, $l \in v^S(\tau_2)$ and $\langle k, l \rangle \in c$, so $\langle S, v \rangle \models \lcont(\tau_1, \tau_2)$.
     \end{itemize}
@@ -520,7 +530,7 @@ Now to demonstrate that for any formula $\phi$ in $\lang$, $\langle S, v \rangle
         \mu^m(v^S(\tau)) \eqdef \sum_{\mathclap{k \in v^S(\tau)}}m(k) = \sum_{\mathclap{k \in v'^{S'}(\tau)}}m'(k) \eqdef \mu^{m'}(v'^{S'}(\tau))
       \end{equation*}
     \end{itemize}
-    Given this, $\langle S', v' \rangle \models \tau_1 \lmeasure \tau_2 \longleftrightarrow \langle S, v \rangle \models \tau_1 \lmeasure \tau_2$ trivially holds.
+    Given this, $\langle S', v' \rangle \models \tau_1 \lmeasure \tau_2 \leftrightarrow \langle S, v \rangle \models \tau_1 \lmeasure \tau_2$ trivially holds.
   \item Assuming that the statement holds for $\phi$ and $\psi$, the proof that it holds for $\phi \lor \psi$, $\phi \land \psi$, $\lnot \phi$, $\phi \Rightarrow \psi$ is direct.
 \end{itemize}
 \end{proof}
@@ -547,6 +557,9 @@ The rest of this section deals with converting this tree to a real line model.
   \item $(\forall u \in V)(m(u) = \mu^\R(f(u)))$ (measure).
   \end{itemize}
 \end{definition}
+
+For notational convenience, throughout the rest of the section $m$ and functions that play an analogous role of giving weight to vertices are implicitly extended to any set of vertices $X \subseteq V$ in the following way: $m(X) \eqdef \sum_{u \in X}m(u)$.
+
 \begin{lemma}[Tree Mapping to Interval, Root at Both Ends]
   Let $T = \langle V, E \rangle$ be a rooted tree with root $r$. For any $m : V \rightarrow \R^+$, $a \in \R$ and $b = a + \sum_{u \in V}m(u)$ there is an effective procedure to construct a preserving tree mapping $f$ of $\langle T, m \rangle$ such that:
   \begin{itemize}
@@ -562,7 +575,7 @@ The rest of this section deals with converting this tree to a real line model.
 
   Let $SubTree(T, w) = \langle V_w, E_w \rangle$ and $SubTree(T, c_i) = \langle V_{c_i}, E_{c_i} \rangle$, for $i \in \{1, 2, \dots, n\}$.
 
-  Let $m : V_w \rightarrow \R^+$. For notational convenience, $m$ is extended for any $X \subseteq V_w$ in the following way: $m(X) \eqdef \sum_{u \in X}m(u)$. Let $a \in \R$ be arbitrary, $b = a + m(V_w)$. Define:
+  Let $m : V_w \rightarrow \R^+$. Let $a \in \R$ be arbitrary, $b = a + m(V_w)$. Define:
   \begin{align*}
     \epsilon &\eqdef \frac{m(w)}{n + 1} \\
     d'_i &\eqdef \epsilon + \sum_{\mathclap{1 \leq k < i}}(\epsilon + m(V_{c_k})) \text{, for } 1 \leq i \leq n \\
@@ -917,7 +930,7 @@ The same can be done on the interval $(-\infty, a]$ by mirror symmetry.
     \begin{itemize}
     \item Let $u_1 \in V$ and $u_2 \in V$, $u_1 \neq u_2$.
       \begin{itemize}
-      \item If $u_1$ and $u_2$ are in the same connected component of $\langle V, E \setminus \{\{i_1, w_1\}, \{w_n, i_2\}\} \rangle$, then the parthood and contact properties are satisfied for $f$ since $f_{i_1}$, $f_w$, and $f_{i_2}$ are preserving tree mappings.
+      \item If $u_1$ and $u_2$ are in the same connected component of the disconnected graph, then the parthood and contact properties are satisfied for $f$ since $f_{i_1}$, $f_w$, and $f_{i_2}$ are preserving tree mappings.
       \item If $u_1$ is in one of $V_{i_1}$, $V_{i_2}$ and $u_2$ in the other, then $f(u_1) \subseteq (-\infty, 0]$ and $f(u_2) \subseteq [m(V_w), \infty)$ or vice-versa.
     Thus, $f(u_1) \cap f(u_2) = \emptyset$ is only possible if $V_w$ is empty ($n = 0$) and $\{u_1, u_2\} = \{i_1, i_2\}$, in which case $\{u_1, u_2\} \in E$. In any case, $f(u_1) \bcap f(u_2) = \emptyset$.
   \item Suppose $u_1$ is in $V_w$ and $u_2$ in $V_{i_1}$. Then $f(u_1) \subseteq (-\infty, 0]$ and $f(u_2) \subseteq [0, m(V_w)]$. Of course, $f(u_1) \bcap f(u_2) = \emptyset$. $f(u_1) \cap f(u_2)$ holds by construction of the lemma exactly if $u_1 = i_1$ and $u_2 = w_1$, in  which case $\{u_1, u_2\} \in E$.
@@ -948,27 +961,27 @@ Suppose that the statement is true for $\tau_1$ and $\tau_2$, terms of $\lang$. 
     and for intersection:
     \begin{align*}
       & v_\R^{S^\R}(\tau_1 \lcap \tau_2) \eqdef v_\R^{S^\R}(\tau_1) \bcap v_\R^{S^\R}(\tau_2) \eqih \\
-      & \bigcup\{ f(i) \mid i \in v'^{S'}(\tau_1)\} \bcap \bigcup\{ f(i) \mid i \in v'^{S'}(\tau_2)\} = & (\B^\R \text{is a Boolean algebra}) \\
-      & \bigcup\{ f(i) \bcap \bigcup\{ f(j) \mid j \in v'^{S'}(\tau_2)\} \mid i \in v'^{S'}(\tau_1)\} = & (\B^\R \text{is a Boolean algebra}) \\
-      & \bigcup\{ \bigcup\{ f(i) \bcap f(j) \mid j \in v'^{S'}(\tau_2)\} \mid i \in v'^{S'}(\tau_1)\} = & (\B^\R \text{is a Boolean algebra}) \\
-      & \bigcup\{ f(i) \bcap f(j) \mid j \in v'^{S'}(\tau_2), i \in v'^{S'}(\tau_1)\} = & (f(i) \neq f(j) \rightarrow f(i) \bcap f(j) = \emptyset) \\
-      & \bigcup\{ f(i) \mid i \in v'^{S'}(\tau_1) \cap v'^{S'}(\tau_2)\} \eqdef \\
-      & \bigcup\{ f(i) \mid i \in v'^{S'}(\tau_1 \lcap \tau_2)\}
+      & \bigcup\left\{ f(i) \mid i \in v'^{S'}(\tau_1)\right\} \bcap \bigcup\left\{ f(j) \mid j \in v'^{S'}(\tau_2)\right\} = & /\B^\R \text{ is Boolean algebra} \\
+      & \bigcup\left\{ f(i) \bcap \bigcup\left\{ f(j) \mid j \in v'^{S'}(\tau_2)\right\} \mid i \in v'^{S'}(\tau_1)\right\} = & /\B^\R \text{ is Boolean algebra} \\
+      & \bigcup\left\{ \bigcup\left\{ f(i) \bcap f(j) \mid j \in v'^{S'}(\tau_2)\right\} \mid i \in v'^{S'}(\tau_1)\right\} = & /B^\R \text{ is Boolean algebra} \\
+      & \bigcup\left\{ f(i) \bcap f(j) \mid j \in v'^{S'}(\tau_2), i \in v'^{S'}(\tau_1)\right\} = & / i \neq j \rightarrow f(i) \bcap f(j) = \emptyset \\
+      & \bigcup\left\{ f(i) \mid i \in v'^{S'}(\tau_1) \cap v'^{S'}(\tau_2)\right\} \eqdef \\
+      & \bigcup\left\{ f(i) \mid i \in v'^{S'}(\tau_1 \lcap \tau_2)\right\}
     \end{align*}
     For complement:
     \begin{align*}
-      & v_\R^{S^\R}(\tau_1\lstar) \eqdef Cl(\R \setminus v_\R^{S^\R}(\tau_1)) \eqih Cl(\R \setminus \bigcup\{ f(i) \mid i \in v'^{S'}(\tau_1)\}) = \\
-      & Cl\left(\left(\bigcup\{ f(i) \mid i \in v'^{S'}(\tau_1)\} \cup \bigcup\{ f(i) \mid i \in V \setminus v'^{S'}(\tau_1)\}\right) \setminus \bigcup\{ f(i) \mid i \in v'^{S'}(\tau_1)\}\right) = \\
-      & Cl\left(\bigcup\{ f(i) \mid i \in V \setminus v'^{S'}(\tau_1)\} \setminus \bigcup\{ f(j) \mid j \in v'^{S'}(\tau_1)\}\right) = \\
-      & Cl\left(\bigcup\left\{ f(i) \setminus \bigcup\{ f(j) \mid j \in v'^{S'}(\tau_1)\} \mid i \in V \setminus v'^{S'}(\tau_1)\right\}\right) = \\
-      & Cl\left(\bigcup\left\{ \bigcap\{ f(i) \setminus f(j) \mid j \in v'^{S'}(\tau_1)\} \mid i \in V \setminus v'^{S'}(\tau_1)\right\}\right) = \\
-      & \bigcup\left\{ Cl\left(\bigcap\{ f(i) \setminus f(j) \mid j \in v'^{S'}(\tau_1)\}\right) \mid i \in V \setminus v'^{S'}(\tau_1)\right\}
+      & v_\R^{S^\R}(\tau_1\lstar) \eqdef Cl\left(\R \setminus v_\R^{S^\R}(\tau_1)\right) \eqih Cl\left(\R \setminus \bigcup\left\{ f(i) \mid i \in v'^{S'}(\tau_1)\right\}\right) = \\
+      & Cl\left(\bigcup\left\{ f(i) \mid i \in \left(v'^{S'}(\tau_1) \cup V \setminus v'^{S'}(\tau_1)\right)\right\} \setminus \bigcup\left\{ f(i) \mid i \in v'^{S'}(\tau_1)\right\}\right) = \\
+      & Cl\left(\bigcup\left\{ f(i) \mid i \in V \setminus v'^{S'}(\tau_1)\right\} \setminus \bigcup\left\{ f(j) \mid j \in v'^{S'}(\tau_1)\right\}\right) = \\
+      & Cl\left(\bigcup \left\{ f(i) \setminus \bigcup \left\{ f(j) \mid j \in v'^{S'}(\tau_1) \right\} \mid i \in V \setminus v'^{S'}(\tau_1)\right\}\right) = \\
+      & Cl\left(\bigcup\left\{ \bigcap\left\{ f(i) \setminus f(j) \mid j \in v'^{S'}(\tau_1)\right\} \mid i \in V \setminus v'^{S'}(\tau_1)\right\}\right) = \\
+      & \bigcup\left\{ Cl\left(\bigcap\left\{ f(i) \setminus f(j) \mid j \in v'^{S'}(\tau_1)\right\}\right) \mid i \in V \setminus v'^{S'}(\tau_1)\right\}
     \end{align*}
     Consider $f(i) \setminus f(j)$ in the above expression. $i \in V \setminus v'^{S'}(\tau_1)$ and $j \in v'^{S'}(\tau_1)$, so $i \neq j$. This means that $\emptyset = f(i) \bcap f(j) = Cl(Int(f(i) \cap f(j)))$, so \\
     $Int(f(i) \cap f(j)) = \emptyset$. Thus, $Int(f(i)) \subseteq f(i) \setminus f(j)$. From here, \\
     $Int(f(i)) \subseteq \bigcap\{ f(i) \setminus f(j) \mid j \in v'^{S'}(\tau_1)\}$ and applying $Cl$ to both sides, we get $Cl(Int(f(i))) \subseteq Cl\left(\bigcap\{ f(i) \setminus f(j) \mid j \in v'^{S'}(\tau_1)\}\right)$. Polytopes are regular closed sets, so $f(i) \subseteq Cl\left(\bigcap\{ f(i) \setminus f(j) \mid j \in v'^{S'}(\tau_1)\}\right)$. On the other hand, $Cl\left(\bigcap\{ f(i) \setminus f(j) \mid j \in v'^{S'}(\tau_1)\}\right) \subseteq Cl\left(\bigcap\{ f(i) \mid j \in v'^{S'}(\tau_1)\}\right) = Cl(f(i)) = f(i)$. Thus, $f(i) = Cl\left(\bigcap\{ f(i) \setminus f(j) \mid j \in v'^{S'}(\tau_1)\}\right)$ and by substituting in the last of the series of equations above, $v_\R^{S^\R}(\tau_1 \lcap \tau_2) = \bigcup\{ f(i) \mid i \in V \setminus v'^{S'}(\tau_1)\} \eqdef \bigcup\{ f(i) \mid i \in v'^{S'}(\tau_1\lstar)\}$.
 
-    To finish the proof of the lemma, follows a proof by induction on the construction of $\phi$ that $\langle \B^\R, v_\R \rangle \models \phi \leftrightarrow \langle S', v' \rangle \models \phi$.
+    To finish the proof of the lemma, a proof by induction on the construction of $\phi$ that $\langle S^\R, v_\R \rangle \models \phi \leftrightarrow \langle S', v' \rangle \models \phi$ follows.
     \begin{itemize}
     \item For $\bot$ and $\top$, the statement is trivial.
     \item For $\tau_1 \lpart \tau_2$,
@@ -999,7 +1012,7 @@ Suppose that the statement is true for $\tau_1$ and $\tau_2$, terms of $\lang$. 
       \begin{align*}
         \langle \B^\R, v_\R \rangle \models \tau_1 \lmeasure \tau_2 &\leftrightarrow \\
         \mu^\R(v_\R^{S^\R}(\tau_1)) \leq \mu^\R(v_\R^{S^\R}(\tau_2)) &\leftrightarrow \\
-        \mu^\R\left(\bigcup\{f(i) \mid i \in v'^{S'}(\tau_1)\}\right) \leq \mu^\R\left(\bigcup\{f(i) \mid i \in v'^{S'}(\tau_2)\}\right) &\leftrightarrow TODO \\
+        \mu^\R\left(\bigcup\{f(i) \mid i \in v'^{S'}(\tau_1)\}\right) \leq \mu^\R\left(\bigcup\{f(i) \mid i \in v'^{S'}(\tau_2)\}\right) &\leftrightarrow \text{TODO} \\
         \sum_{\mathclap{i \in v'^{S'}(\tau_1)}}\mu^\R(f(i)) \leq \sum_{\mathclap{i \in v'^{S'}(\tau_2)}}\mu^\R(f(i)) &\leftrightarrow \\
         \sum_{\mathclap{i \in v'^{S'}(\tau_1)}}m(i) \leq \sum_{\mathclap{i \in v'^{S'}(\tau_2)}}m(i) &\leftrightarrow \\
         \langle S', v' \rangle \models \tau_1 \lmeasure \tau_2
@@ -1007,6 +1020,178 @@ Suppose that the statement is true for $\tau_1$ and $\tau_2$, terms of $\lang$. 
     \end{itemize}
 \end{proof}
 \section{Axiomatization}
+This section presents a decidable set of formulas of $\lang$ which axiomatize $S^\R$. That is to say they are valid in $S^\R$ and all formulas of $\lang$, valid in $S^\R$, can be formally derived from them.
+
+Formal derivation is meant in the usual proof-theoretic sense. The logical axioms and rules of inference can for example be in Hilbert-style for a first order language with equality. In the case of $\lang$, where no quantifiers are present, logical axioms or rules relating to quantifiers are superfluous and could be left out.
+
+The axioms that pertain to $\lcup$, $\lcap$ and $\lstar$ are those of a Boolean algebra and are given below. The particular set chosen here is as in (TODO: cite Halmos).
+\begin{tasks}(2)
+\task[] $x \lcap 1 \lparteq x$
+\task[] $x \lcup 0 \lparteq x$
+\task[] $x \lcap x\lstar \lparteq 0$
+\task[] $x \lcup x\lstar \lparteq 1$
+\task[] $x \lcap y \lparteq y \lcap x$
+\task[] $x \lcup y \lparteq y \lcup x$
+\task[] $x \lcap (y \lcup z) \lparteq (x \lcap y) \lcup (x \lcap z)$
+\task[] $x \lcup (y \lcap z) \lparteq (x \lcup y) \lcap (x \lcup z)$
+\end{tasks}
+It will be assumed without further mention that basic statements about Boolean algebras can be formally derived from these and that these formal proofs can be effectively generated. The parthood relation is the partial ordering of the Boolean algebra. Formal equality occurs when two objects are parts of each other.
+\begin{tasks}(2)
+  \task[] $(x \lpart y) \Leftrightarrow (x \lcap y \lparteq x)$
+  \task[] $(x \lparteq y) \Leftrightarrow (x \lpart y \land y \lpart x)$
+\end{tasks}
+
+The axioms for contact are:
+\begin{tasks}(2)
+  \task[] $(x \not \lparteq 0) \Leftrightarrow \lcont(x, x)$
+  \task[] $\lcont(x, y \lcup z) \Leftrightarrow \lcont(x, y) \lor \lcont(x, z)$
+  \task[] $\lcont(x, y) \Rightarrow \lcont(y, x)$
+  \task[] $(x \not \lparteq 0) \land (x \not \lparteq 1) \Rightarrow \lcont(x, x\lstar)$
+\end{tasks}
+
+Below are are some of the axioms for measure.
+\begin{tasks}(1)
+  \task[] $(x \lmeasure y) \land (y \lcap z \lparteq 0) \Rightarrow (x \lcap z) \lmeasure (y \lcap z)$
+  \task[] $(x \lcap z \lparteq 0) \land (y \lcap z \lparteq 0) \land (z \lmeasures 1) \Rightarrow (x \lmeasure y \Leftrightarrow (x \lcup z) \lmeasure (y \lcup z))$
+  \task[] $(x \lcap z \lparteq 0) \land (y \lcap z \lparteq 0) \land (z \lmeasures 1) \Rightarrow (x \lmeasures y \Leftrightarrow (x \lcup z) \lmeasures (y \lcup z))$
+  \task[] $(x \lmeasureeq 1) \lor (x\lstar \lmeasureeq 1)$
+  \task[] $\lnot(x \lmeasureeq 1 \land y \lmeasureeq 1 \land z \lmeasureeq 1 \land (x \lcap y \lparteq 0) \land (x \lcap z \lparteq 0) \land (y \lcap z \lparteq 0))$
+  \task[] $(x \lmeasureeq 0) \Leftrightarrow (x \lparteq 0)$
+\end{tasks}
+
+%\begin{equation*}
+%  (x \lcup y \lcup z \lparteq 1) \land (x \lmeasureeq 1) \land (y \lmeasures 1) %\land (z \lmeasureeq 1) \land \lcont(x \lcup y, z) \rightarrow \lcont(x, z)
+%\end{equation*}
+
+The rest of the measure axioms form an infinite, but decidable set and are presented below.
+\begin{definition}[$(n, \leq)$-type and $(n, <)$-type inequalities]
+  Let $r_1, r_2, \dots, r_n$ be variables for real numbers and $I' \subseteq \{1, 2, \dots, n\}$, $I'' \subseteq \{1, 2, \dots, n\}$. Then
+  \begin{equation*}
+    \sum_{i \in I'}r_i \leq \sum_{i \in I''}r_i
+  \end{equation*}
+  is an \emph{$(n, \leq)$-type inequality} and
+  \begin{equation*}
+    \sum_{i \in I'}r_i < \sum_{i \in I''}r_i
+  \end{equation*}
+  is an \emph{$(n, <)$-type inequality}.
+\end{definition}
+\begin{definition}[$M_n$ System of Inequalities]
+  Any system of $(n, \leq)$- and $(n, <)$-type inequalities over the same variables $r_1, r_2, \dots, r_n$, which also contains the inequalities $0 \leq r_i$, for all $i \in {1, 2, \dots, n}$, is called an \emph{$M_n$ system}.
+\end{definition}
+\begin{definition}[Formula $\phi_M$, Matched to $M_n$ System]
+  Let $M$ be an $M_n$ system. To any $(n, \leq)$-type inequality
+  \begin{equation*}
+    \sum_{i \in I'}r_i \leq \sum_{i \in I''}r_i,
+  \end{equation*}
+  the formula of $\lang$
+  \begin{equation*}
+    \bigsqcup_{i \in I'}x_i \lmeasure \bigsqcup_{i \in I''}x_i
+  \end{equation*}
+  is matched. Analogously, to any $(n, <)$-type inequality
+  \begin{equation*}
+    \sum_{i \in I'}r_i < \sum_{i \in I''}r_i,
+  \end{equation*}
+  the formula of $\lang$
+  \begin{equation*}
+    \bigsqcup_{i \in I'}x_i \lmeasures \bigsqcup_{i \in I''}x_i
+  \end{equation*}
+  is matched.
+
+  The conjunction of all formulas matched to $(n, \leq)$- and $(n, <)$-type inequalities of $M$ is denoted $\phi_M$, the formula matched to $M$.
+\end{definition}
+
+Given these definitions, the rest of the axioms that concern the qualitative measure can be defined. For every natural number $n$, for every $M_n$ system $M$, if $M$ does not have a solution in which exactly one or exactly two variables are assigned values of $\infty$, then
+\begin{equation*}
+  \left(\bigwedge_{1 \leq i < j \leq n} (x_i \lcap x_j \lparteq 0) \land \bigsqcup_{\mathclap{1 \leq i \leq n}} x_i \lparteq 1\right) \Rightarrow \lnot \phi_M
+\end{equation*}
+is an axiom.
+\subsection{Decidability}
+The axioms described above are infinitely many. This raises the question of their decidability, particularly the set of axioms which correspond to $M_n$ systems, which form the infinite part.
+
+\begin{proposition}
+  There exists an effective procedure to determine if any system with $n$ real variables (not allowing $\infty$), containing non-strict and strict linear inequalities with real coefficients, i.e.
+  \[
+  \begin{array}{|l@{}}
+    \begin{aligned}
+      &a_{1, 1}r_1 + a_{1, 2}r_2 + \dots + a_{1, n}r_n &&\leq b_1 \\
+      &a_{2, 1}r_1 + a_{2, 2}r_2 + \dots + a_{2, n}r_n &&\leq b_2 \\
+      &\dots&&\dots \\
+      &a_{m, 1}r_1 + a_{m, 2}r_2 + \dots + a_{m, n}r_n &&\leq b_m \\
+      &a_{m+1, 1}r_1 + a_{m+1, 2}r_2 + \dots + a_{m+1, n}r_n &&< b_{m+1} \\
+      &a_{m+2, 1}r_1 + a_{m+2, 2}r_2 + \dots + a_{m+2, n}r_n &&< b_{m+2} \\
+      &\dots&&\dots \\
+      &a_{m+k, 1}r_1 + a_{m+k, 2}r_2 + \dots + a_{m+k, n}r_n &&< b_{m+k}
+    \end{aligned}
+  \end{array}
+  \]
+  has a solution and if so, to produce that solution.
+\end{proposition}
+\begin{proof}
+  After rearrangement of the inequalities to leave $r_n$ on the left side,
+  \[
+  \begin{array}{|l@{}}
+    \begin{aligned}
+      &r_n \,\underline\triangle&& - \frac{a_{1, 1}}{a_{1,n}}r_1 - \frac{a_{1, 2}}{a_{1, n}}r_2 - \dots - \frac{a_{1, n - 1}}{a_{1, n}}r_{n - 1} + \frac{b_1}{a_{1, n}} \\
+      &r_n \,\underline\triangle&& - \frac{a_{2, 1}}{a_{2,n}}r_1 - \frac{a_{2, 2}}{a_{2, n}}r_2 - \dots - \frac{a_{2, n - 1}}{a_{2, n}}r_{n - 1} + \frac{b_2}{a_{2, n}} \\
+      &\dots&&\dots \\
+      &r_n \,\underline\triangle&& - \frac{a_{m, 1}}{a_{m,n}}r_1 - \frac{a_{m, 2}}{a_{m, n}}r_2 - \dots - \frac{a_{m, n - 1}}{a_{m, n}}r_{n - 1} + \frac{b_m}{a_{m, n}} \\
+      &r_n \,\triangle&& - \frac{a_{m+1, 1}}{a_{m+1,n}}r_1 - \frac{a_{m+1, 2}}{a_{m+1, n}}r_2 - \dots - \frac{a_{m+1, n - 1}}{a_{m+1, n}}r_{n - 1} + \frac{b_{m+1}}{a_{m+1, n}} \\
+      &r_n \,\triangle&& - \frac{a_{m+2, 1}}{a_{m+2,n}}r_1 - \frac{a_{m+2, 2}}{a_{m+2, n}}r_2 - \dots - \frac{a_{m+2, n - 1}}{a_{m+2, n}}r_{n - 1} + \frac{b_{m+2}}{a_{m+2, n}} \\
+      &\dots&&\dots \\
+      &r_n \,\triangle&& - \frac{a_{m+k, 1}}{a_{m+k,n}}r_1 - \frac{a_{m+k, 2}}{a_{m+k, n}}r_2 - \dots - \frac{a_{m+k, n - 1}}{a_{m+k, n}}r_{n - 1} + \frac{b_{m+k}}{a_{m+k, n}} \\
+    \end{aligned}
+  \end{array}
+  \]
+  is obtained, where $\underline\triangle$ stands for $\leq$ or $\geq$ and $\triangle$ stands for $<$ or $>$, depending on the sign of $a_{i, n}$, for $i = 1, \dots, m+k$. Thus, for any assignment to $r_1, r_2, \dots, r_{n-1}$, a series of strict and non-strict upper and lower bounds on $r_n$ are achieved.
+
+  Given this, the rest of the proof will be by induction on the number of variables.
+
+  Suppose $n = 1$. The strict and non-strict upper and lower bounds on the single variable $r_1$ are fully determined and do not depend on any further variable assignments. If two lower bounds or two upper bounds are equal, one strict and one non-strict, then the strict one implies the non-strict one, so the non-strict is superfluous and is ignored. Let $L$ be the set of lower bounds and $U$ be the set of upper bounds. If $\max L = \min U$, and these two bounds are non-strict, then $\max L$ is a solution for $r_1$. Additionally, if $\max L < \min U$, then any value in $(L_g, U_l)$ is a solution, for example $(L_g + U_l)/2$. In the other cases, there is no solution.
+
+  Suppose $n > 1$. For each right-hand side (linear expression) of the transformed system that forms a lower bound $l$ and each each right-hand side that forms an upper bound $u$, consider the inequality $U \leq L$, if both bounds are non-strict and $U < L$, if at least one of them is strict. Thus, a new system of these linear inequalities is constructed for the $n-1$ variables $r_1, r_2, \dots, r_{n-1}$. By induction hypothesis, there is a procedure to find a solution to this system or to conclude that there is none.
+
+  This new system is a consequence of the first, so if it has no solution, then the initial system also has no solution. On the other hand, if $\rho_1, \rho_2, \dots, \rho_{n-1}$ is a solution for $r_1, r_2, \dots, r_{n-1}$ in the new system, let $L_\rho$ and $U_\rho$ be the sets of upper and lower bounds on $r_n$, achieved by substituting $r_i$ for $\rho_i$ in the previous system, where $i = 1, 2, \dots, n-1$. Again, as in the base case, superfluous non-strict bounds are ignored.
+
+  If $\max L_\rho = \min U_\rho$, then both bounds are non-strict (if they were strict, $\rho_1, \rho_2, \dots, \rho_{n-1}$ wouldn't be a solution) and assigning $\max L_\rho$ to $r_n$ yields a solution for the original system. Otherwise, assigning any value in the interval $(\max L_\rho, \min U_\rho)$ to $r_n$ yields a solution, for example $(\max L_\rho + \min U_\rho)/2$.
+\end{proof}
+\begin{corollary}
+  There exists an effective procedure to determine if any $M_n$ system $M$ has a solution where exactly one or exactly two variables are assigned $\infty$ and if so, to produce that solution.
+\end{corollary}
+\begin{proof}
+  There are finitely many possible choices for exactly one or exactly two variables of those in $M$ to be assigned $\infty$. For any such assignment, a new system is obtained. If a solution is found for any these new systems, it yields a solution to $M$ and otherwise $M$ has no solution (in which exactly one or exactly two variables are assigned $\infty$).
+
+  For any inequality of this new system, the following cases are considered:
+  \begin{itemize}
+  \item when the inequality is strict,
+    \begin{itemize}
+    \item if an infinite assignment features on the left side, the system has no solution;
+    \item if an infinite assignment features on the right side, but not on the left, the inequality can be ignored;
+    \item if no infinite assignment features in the inequality, no change is made;
+    \end{itemize}
+  \item when the inequality is non-strict,
+    \begin{itemize}
+    \item if an infinite assignment features on the right side, the inequality can be ignored;
+    \item if an infinite assignment features on the left side, but not on the right, the system has no solution;
+    \item if no infinite assignment features in the inequality, no change is made.
+    \end{itemize}
+  \end{itemize}
+  If after this consideration, it has not been established that the system has no solution, then the inequalities which feature $\infty$ have been eliminated and the obtained system is of linear strict and non-strict inequalities. Therefore, the statement from the proposition can be applied.
+\end{proof}
+
+\begin{proposition}
+  There is an effective procedure to decide if any formula $\phi$ of $\lang$ is an axiom.
+\end{proposition}
+\begin{proof}
+  First, check if $\phi$ is any of the finitely many axioms for Boolean algebra, contact or measure. If not, what remains is to check whether it corresponds to an appropriate $M_n$ system.
+
+  If there are $k$ variables in $\phi$, then $\phi$ can correspond only to an $M_k$ system. There are finitely many $M_k$ systems so it remains only to exhaustively check for each one of them if:
+  \begin{itemize}
+  \item it has a solution with exactly one or exactly two variables assigned to $\infty$,
+  \item $\phi$ corresponds to that system.
+  \end{itemize}
+  If both are true for some $M_k$ system, then $\phi$ is an axiom. Otherwise it isn't.
+\end{proof}
+
 \subsection{Correctness}
 \subsection{Completeness}
 \end{document}
