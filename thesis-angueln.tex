@@ -79,7 +79,7 @@ Listed below are some well-established notions and the notation for them in this
 This section describes the language, whose semantics will be considered in a couple of contexts.
 
 \begin{definition}[Language]
-$\lang$ denotes the first-order language with equality of only quantifier-free formulas, containing the following non-logical symbols:
+  $\lang$ denotes the first-order language with equality of only quantifier-free formulas, containing the following non-logical symbols:
 \begin{itemize}
   \item predicate symbols:
   \begin{itemize}
@@ -87,7 +87,7 @@ $\lang$ denotes the first-order language with equality of only quantifier-free f
   \item binary infix $\lmeasure$: measure comparison
   \item binary prefix $\lcont$: contact
   \end{itemize}
-  \item functional symbols:
+  \item function symbols:
   \begin{itemize}
   \item binary infix function $\lcup$: union
   \item binary infix function $\lcap$: intersection
@@ -130,7 +130,7 @@ for any terms $\tau_1$ and $\tau_2$ of $\lang$.
 \end{definition}
 
 \begin{definition}[Validity of a Formula in $S = \langle \B, \mathcal{C}, \mathcal{M} \rangle$]
-  Again, let $v: \Vars \rightarrow B$. Validity of a formula $\phi$ in $S$ with valuation $v$ is denoted $\langle S, v \rangle \models \phi$ and defined over elementary formulas like so:
+  Again, let $v: \Vars \rightarrow B$. Validity of a formula $\phi$ in $S$ with valuation $v$ is denoted $\langle S, v \rangle \models \phi$ and defined over atomic formulas like so:
   \begin{itemize}
   \item $\langle S, v \rangle \models \tau_1 \lpart \tau_2 \leftrightarrow v^S(\tau_1)$ is less than or equal to $v^S(\tau_2)$ in $\B$,
   \item $\langle S, v \rangle \models \lcont(\tau_1, \tau_2) \leftrightarrow \mathcal{C}(v^S(\tau_1), v^S(\tau_2))$,
@@ -145,7 +145,9 @@ for any terms $\tau_1$ and $\tau_2$ of $\lang$.
   \end{itemize}
   where $\phi$ and $\psi$ are (quantifier-free) formulas of $\lang$.
 
-  If $\langle S, v \rangle \models \phi$ for all $v: \Vars \rightarrow B$, then $S \models \phi$.
+  If $\langle S, v \rangle \models \phi$ for all $v: \Vars \rightarrow B$, then $\phi$ is valid in $S$, denoted by $S \models \phi$.
+
+  If there exists $v: \Vars \rightarrow B$ such that $\langle S, v \rangle \models \phi$, then $\phi$ is satisfiable.
 \end{definition}
 
 \subsection{Polytopes on the Real Line}
@@ -153,24 +155,31 @@ for any terms $\tau_1$ and $\tau_2$ of $\lang$.
 A specific kind of objects will be considered: finite unions of closed, potentially infinite, intervals on the real line. These are defined below, along with the interpretation operations and properties with which the language is concerned.
 
 \begin{definition}[Basis Polytope]
-For any $m$, $n \in \R$ such that $m < n$, the intervals $[m, n]$, $(-\infty, m]$, $[m, \infty)$ and $(-\infty, \infty)$ are called \emph{basis polytopes}.
+For any $m$, $n \in \R$ such that $m < n$, the intervals $[m, n]$, $(-\infty, m]$, $[m, \infty)$ and $(-\infty, \infty)$ are called \emph{basis polytopes}. The set of all basis polytopes is $Bas(\R)$.
 \end{definition}
 
 \begin{definition}[Polytope]
-For any finite set of basis polytopes $B$, $\bigcup B$ is called a \emph{polytope}. The set of all polytopes is denoted $\Pol(\R)$.
+For any finite set of basis polytopes $C \subseteq Bas(\R)$, $\bigcup C$ is called a \emph{polytope}. The set of all polytopes is denoted $\Pol(\R)$.
 \end{definition}
-
-Remark that for $B = \emptyset$, the empty set is also a polytope.
+Remark that for $C = \emptyset$, the empty set is also a polytope.
 
 \begin{proposition}
-Any polytope can be uniquely represented as the union of a finite set of non-intersecting basis polytopes.
+Any polytope $p$ can be uniquely represented as the union of a finite set $C_p$ of non-intersecting basis polytopes.
 \end{proposition}
 \begin{proof}
-  TODO: write proof
+  Let $A \eqdef \{ C \mid (\forall b \in C)(b \in Bas(\R)) \text{ and } \bigcup C = p\}$. Since $p$ is a polytope, $A \neq \emptyset$. Let $C'$ be any element of $A$, having the least number of elements, i.e. $(\forall C \in A)(\overline{\overline{C'}} \leq \overline{\overline{C}})$.
+
+  Let $b_1 \in C'$, $b_2 \in C'$ and $b_1 \neq b_2$. Suppose for the sake of contradiction that $b_1 \cap b_2 \neq \emptyset$. Then, $b_1 \cup b_2 \in Bas(\R)$. Let $D \eqdef C' \cup \{b_1 \cup b_2\} \setminus \{b_1, b_2\}$. $\bigcup D = \bigcup C'$, so $D \in A$ and $\overline{\overline{D}} < \overline{\overline{C'}}$, a contradiction. Thus, the elements of $C'$ are non-intersecting.
+
+  Suppose $C'' \in A$ and $\overline{\overline{C''}} = \overline{\overline{C'}}$. By the same argument as for $C'$, the elements of $C''$ are also non-intersecting.
+
+  Let $b' \in C'$. $b' \subseteq \bigcup C'$, so $b' \subseteq \bigcup C''$. Let $x \in b'$. Then $x \in \bigcup C''$, so let $b'' \in C''$, such that $x \in b''$.
+
+  Suppose for the sake of contradiction that $b'' \setminus b' \neq \emptyset$. Let $y \in b'' \setminus b'$.
 \end{proof}
 
 \begin{definition}(Standard Representation)
-The set from the above proposition is called the \emph{standard representation} of a polytope.
+The set $C_p$ from the above proposition is called the \emph{standard representation} of the polytope $p$.
 \end{definition}
 
 \begin{definition}[Polytope Operations]
@@ -197,14 +206,24 @@ $\Pol(\R)$ forms a Boolean algebra with
 This algebra will be denoted $\B^\R$.
 \end{proposition}
 \begin{proof}
-  TODO: write proof
+  It will be shown that the axioms for Boolean algebra given in the Axiomatization section are met. These are as in (TODO: Cite Halmos).
 \end{proof}
 
 \begin{proposition}
-  $\B^\R$ is incomplete.
+  $\B^\R$ is not closed under supremum of countable sets (countable join operations).
 \end{proposition}
 \begin{proof}
-  TODO: write proof
+  Consider the countably many polytopes $[2n, 2n+1]$, for each natural number $n$. Their join is the set $[0, 1] \cup [2, 3] \cup [4, 5] \cup \dots$.
+
+  Suppose for the sake of contradiction that this set is a polytope $p$. Then $p$ is a finite union of a basis polytopes $C$, $p = \bigcup C$. Clearly, $C \neq \emptyset$.
+
+  If $[m, \infty) \in C$ for some $m$, then let $o > m$ be the least odd natural number, greater than $m$. $o + \frac{1}{2} \in [m, \infty)$, but $o + \frac{1}{2} \not \in [0, 1] \cup [2, 3] \cup [4, 5] \cup \dots$. Therefore, $[m, \infty) \not \in C$ for any $m$. Similarly, $(-\infty, \infty) \not \in C$, since e.g. $1\frac{1}{2} \not \in p$.
+
+        Let
+        \[
+        R \eqdef \{r \mid (\exists l \in \R)([l, r] \in C) \text{ or } (-\infty, r] \in C\}
+        \]
+        Since $C$ is finite, $R$ is finite and there is a greatest element in $R$. Let $o'$ be the least natural number, greater than $\max R$. $o' \not \in \bigcup C$, yet $o' \in [0, 1] \cup [2, 3] \cup [4, 5] \cup \dots$, a contradiction.
 \end{proof}
 
 \begin{definition}[Line Contact]
@@ -224,7 +243,7 @@ The \emph{qualitative measure relation induced by} $\mu^\R$ is defined
 \end{definition}
 
 \begin{proposition}
-  $\mu^\R$ is a measure.
+  $\mu^\R$ is a countably additive measure.
 \end{proposition}
 \begin{proof}
   TODO: write proof
@@ -1193,5 +1212,6 @@ The axioms described above are infinitely many. This raises the question of thei
 \end{proof}
 
 \subsection{Correctness}
+
 \subsection{Completeness}
 \end{document}
